@@ -1,0 +1,3502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Football Champions League | Next Generation Esports</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6a11cb;
+            --secondary: #2575fc;
+            --accent: #ff4d4d;
+            --text: #333;
+            --text-light: #f8f9fa;
+            --bg: #f8f9fa;
+            --card-bg: #fff;
+            --nav-bg: rgba(255, 255, 255, 0.9);
+            --footer-bg: #343a40;
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --info: #17a2b8;
+            --border-radius: 12px;
+            --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        .dark-mode {
+            --primary: #8a2be2;
+            --secondary: #4169e1;
+            --text: #f8f9fa;
+            --text-light: #333;
+            --bg: #121212;
+            --card-bg: #1e1e1e;
+            --nav-bg: rgba(30, 30, 30, 0.9);
+            --footer-bg: #0d0d0d;
+            --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            transition: var(--transition);
+            overflow-x: hidden;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--card-bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 5px;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            animation: float 15s infinite linear;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-1000px) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        /* Navigation */
+        nav {
+            background-color: var(--nav-bg);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo i {
+            margin-right: 10px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 1.5rem;
+        }
+
+        .nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            position: relative;
+            padding: 0.5rem 0;
+            transition: var(--transition);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-links a.active {
+            color: var(--primary);
+        }
+
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-left: 1.5rem;
+        }
+
+        .theme-toggle:hover {
+            color: var(--primary);
+        }
+
+        .hamburger {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 5rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 10px rgba(106, 17, 203, 0.5);
+            }
+            to {
+                text-shadow: 0 0 20px rgba(37, 117, 252, 0.7);
+            }
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+            color: var(--text);
+        }
+
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .countdown-item {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            min-width: 80px;
+            text-align: center;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+        }
+
+        .countdown-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .countdown-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: white;
+        }
+
+        .countdown-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 0.5rem;
+            transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(106, 17, 203, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(106, 17, 203, 0.6);
+        }
+
+        .cta-button::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .cta-button:hover::after {
+            left: 100%;
+        }
+
+        /* Live Ticker */
+        .live-ticker {
+            background-color: var(--danger);
+            color: white;
+            padding: 0.5rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ticker-content {
+            display: flex;
+            align-items: center;
+            white-space: nowrap;
+            animation: ticker 30s linear infinite;
+        }
+
+        @keyframes ticker {
+            0% {
+                transform: translateX(100%);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+
+        .live-badge {
+            background-color: white;
+            color: var(--danger);
+            padding: 0.2rem 0.8rem;
+            border-radius: 50px;
+            font-weight: bold;
+            margin-right: 1rem;
+            display: inline-block;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(255, 255, 255, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+            }
+        }
+
+        /* Sections */
+        .section {
+            padding: 4rem 2rem;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            display: inline-block;
+            position: relative;
+        }
+
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            border-radius: 2px;
+        }
+
+        /* Upcoming Matches */
+        .matches-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .match-card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .match-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .match-header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .match-body {
+            padding: 1.5rem;
+        }
+
+        .teams {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .team {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 40%;
+        }
+
+        .team-logo {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+            margin-bottom: 0.5rem;
+            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+        }
+
+        .team-name {
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .vs {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--accent);
+        }
+
+        .match-details {
+            text-align: center;
+            margin-top: 1rem;
+            color: var(--text);
+        }
+
+        .match-time {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .match-venue {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .match-status {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: var(--accent);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        /* Featured Teams */
+        .featured-teams {
+            background: linear-gradient(135deg, rgba(106, 17, 203, 0.1), rgba(37, 117, 252, 0.1));
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        .teams-slider {
+            display: flex;
+            overflow-x: auto;
+            gap: 2rem;
+            padding: 1rem 0;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .teams-slider::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .teams-slider::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 4px;
+        }
+
+        .team-card {
+            scroll-snap-align: start;
+            flex: 0 0 250px;
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+            text-align: center;
+        }
+
+        .team-card:hover {
+            transform: scale(1.05);
+        }
+
+        .team-card-img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+
+        .team-card-body {
+            padding: 1.5rem;
+        }
+
+        .team-card-title {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .team-card-stats {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 1rem;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: var(--primary);
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+
+        /* Group Stage */
+        .groups-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .group-card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+        }
+
+        .group-header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1rem;
+            font-weight: bold;
+            text-align: center;
+            font-size: 1.2rem;
+        }
+
+        .standings-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .standings-table th, .standings-table td {
+            padding: 0.8rem;
+            text-align: center;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .standings-table th {
+            background-color: rgba(0, 0, 0, 0.05);
+            font-weight: bold;
+        }
+
+        .standings-table tr:hover {
+            background-color: rgba(0, 0, 0, 0.03);
+        }
+
+        .team-cell {
+            display: flex;
+            align-items: center;
+        }
+
+        .team-cell img {
+            width: 25px;
+            height: 25px;
+            margin-right: 0.5rem;
+        }
+
+        .qualified {
+            background-color: rgba(40, 167, 69, 0.1);
+            font-weight: bold;
+        }
+
+        /* Knockout Stage */
+        .bracket {
+            display: flex;
+            justify-content: center;
+            overflow-x: auto;
+            padding: 2rem 0;
+        }
+
+        .round {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            min-width: 200px;
+            margin: 0 1rem;
+        }
+
+        .round-title {
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .matchup {
+            margin: 1rem 0;
+            position: relative;
+        }
+
+        .matchup::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: -20px;
+            width: 20px;
+            height: 2px;
+            background-color: var(--primary);
+        }
+
+        .matchup::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: -20px;
+            width: 20px;
+            height: 2px;
+            background-color: var(--primary);
+        }
+
+        .round:first-child .matchup::before,
+        .round:last-child .matchup::after {
+            display: none;
+        }
+
+        .team-bracket {
+            display: flex;
+            align-items: center;
+            padding: 0.5rem;
+            margin: 0.2rem 0;
+            background-color: var(--card-bg);
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .team-bracket:hover {
+            transform: translateX(5px);
+        }
+
+        .team-bracket img {
+            width: 20px;
+            height: 20px;
+            margin-right: 0.5rem;
+        }
+
+        .team-bracket.winner {
+            background-color: rgba(40, 167, 69, 0.2);
+            font-weight: bold;
+        }
+
+        .team-bracket .score {
+            margin-left: auto;
+            font-weight: bold;
+            color: var(--accent);
+        }
+
+        .final-match {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 215, 0, 0.2));
+            border: 2px solid gold;
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .final-match h3 {
+            color: gold;
+            margin-bottom: 1rem;
+        }
+
+        .champion {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 1rem;
+            animation: pulseGold 2s infinite;
+        }
+
+        @keyframes pulseGold {
+            0% {
+                transform: scale(1);
+                text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+            }
+            50% {
+                transform: scale(1.05);
+                text-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
+            }
+            100% {
+                transform: scale(1);
+                text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+            }
+        }
+
+        .champion img {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Scoreboard */
+        .scoreboard-container {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+        }
+
+        .scoreboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+
+        .filter-options {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .filter-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .filter-btn.active {
+            background: white;
+            color: var(--primary);
+        }
+
+        .filter-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .stat-card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--box-shadow);
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-card i {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .stat-card h3 {
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card p {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--accent);
+        }
+
+        /* Schedule */
+        .calendar {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+
+        .calendar-nav {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .calendar-nav button {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .calendar-nav button:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+        }
+
+        .calendar-day-header {
+            padding: 0.5rem;
+            text-align: center;
+            font-weight: bold;
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+
+        .calendar-day {
+            padding: 0.5rem;
+            min-height: 100px;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            position: relative;
+        }
+
+        .calendar-day.empty {
+            background-color: rgba(0, 0, 0, 0.02);
+        }
+
+        .day-number {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            font-size: 0.8rem;
+        }
+
+        .calendar-event {
+            background-color: rgba(106, 17, 203, 0.1);
+            border-left: 3px solid var(--primary);
+            padding: 0.2rem 0.5rem;
+            margin-top: 0.5rem;
+            font-size: 0.8rem;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .calendar-event:hover {
+            background-color: rgba(106, 17, 203, 0.2);
+        }
+
+        /* Admin Panel */
+        .admin-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .admin-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .admin-header h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .admin-tabs {
+            display: flex;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            overflow-x: auto;
+        }
+
+        .admin-tab {
+            padding: 0.8rem 1.5rem;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: var(--transition);
+            white-space: nowrap;
+        }
+
+        .admin-tab.active {
+            border-bottom: 3px solid var(--primary);
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        .admin-tab:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+
+        .admin-content {
+            display: none;
+        }
+
+        .admin-content.active {
+            display: block;
+        }
+
+        .admin-form {
+            background-color: var(--card-bg);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: var(--border-radius);
+            background-color: var(--bg);
+            color: var(--text);
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(106, 17, 203, 0.2);
+        }
+
+        .form-row {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: var(--border-radius);
+            font-weight: bold;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn-primary {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(106, 17, 203, 0.4);
+        }
+
+        .btn-danger {
+            background-color: var(--danger);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 2rem;
+        }
+
+        .admin-table th, .admin-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .admin-table th {
+            background-color: rgba(0, 0, 0, 0.05);
+            font-weight: bold;
+        }
+
+        .admin-table tr:hover {
+            background-color: rgba(0, 0, 0, 0.03);
+        }
+
+        .action-btns {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-sm {
+            padding: 0.4rem 0.8rem;
+            font-size: 0.8rem;
+        }
+
+        /* Logo Gallery */
+        .logo-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .logo-item {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+        }
+        
+        .logo-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .logo-item img {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+            margin-bottom: 0.5rem;
+        }
+        
+        .logo-item .delete-logo {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: var(--danger);
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            opacity: 0;
+            transition: var(--transition);
+        }
+        
+        .logo-item:hover .delete-logo {
+            opacity: 1;
+        }
+        
+        .upload-area {
+            border: 2px dashed rgba(0, 0, 0, 0.2);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            text-align: center;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .upload-area:hover {
+            border-color: var(--primary);
+            background: rgba(106, 17, 203, 0.05);
+        }
+
+        /* Login Form */
+        .login-container {
+            max-width: 500px;
+            margin: 5rem auto;
+            background-color: var(--card-bg);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            text-align: center;
+        }
+
+        .login-container h2 {
+            margin-bottom: 2rem;
+            color: var(--primary);
+        }
+
+        .login-form .form-group {
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+
+        /* Highlights */
+        .highlights-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .highlight-card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+        }
+
+        .highlight-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .highlight-video {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            height: 0;
+            overflow: hidden;
+        }
+
+        .highlight-video iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .highlight-body {
+            padding: 1.5rem;
+        }
+
+        .highlight-title {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .highlight-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: rgba(0, 0, 0, 0.6);
+            margin-bottom: 1rem;
+        }
+
+        .highlight-desc {
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* Save Notification */
+        .save-notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--success);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            z-index: 1000;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        
+        .save-notification.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--footer-bg);
+            color: white;
+            padding: 3rem 2rem 1rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-column h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: white;
+            padding-left: 5px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 1s ease-out forwards;
+        }
+
+        .delay-1 {
+            animation-delay: 0.2s;
+        }
+
+        .delay-2 {
+            animation-delay: 0.4s;
+        }
+
+        .delay-3 {
+            animation-delay: 0.6s;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 80%;
+                height: calc(100vh - 70px);
+                background-color: var(--nav-bg);
+                flex-direction: column;
+                align-items: center;
+                padding: 2rem 0;
+                transition: var(--transition);
+                z-index: 999;
+            }
+
+            .nav-links.active {
+                left: 0;
+            }
+
+            .nav-links li {
+                margin: 1rem 0;
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .section {
+                padding: 3rem 1rem;
+            }
+
+            .admin-tabs {
+                overflow-x: auto;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .countdown {
+                flex-wrap: wrap;
+            }
+
+            .form-row {
+                flex-direction: column;
+            }
+
+            .round {
+                min-width: 150px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .section-title h2 {
+                font-size: 1.8rem;
+            }
+
+            .countdown-item {
+                min-width: 60px;
+            }
+
+            .countdown-number {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header with Particles -->
+    <header>
+        <div class="particles" id="particles"></div>
+        <div class="header-content">
+            <h1>E-Football Champions League</h1>
+            <p>The ultimate virtual football competition featuring the best teams and players from around the world</p>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-trophy"></i>
+                <span>EFCL</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#home" class="active">Home</a></li>
+                <li><a href="#groups">Groups</a></li>
+                <li><a href="#knockout">Knockout</a></li>
+                <li><a href="#scoreboard">Scoreboard</a></li>
+                <li><a href="#schedule">Schedule</a></li>
+                <li><a href="#highlights">Highlights</a></li>
+                <li><a href="#admin" id="admin-link">Admin</a></li>
+                <button class="theme-toggle" id="theme-toggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </ul>
+            <button class="hamburger" id="hamburger">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Live Ticker -->
+    <div class="live-ticker">
+        <div class="ticker-content">
+            <span class="live-badge">LIVE</span>
+            <span id="live-ticker-text">Loading live matches...</span>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <h1 class="fade-in" id="tournament-title">E-Football Champions League 2023</h1>
+        <p class="fade-in delay-1">Experience the thrill of virtual football at its finest. The most prestigious tournament in e-football is back with more teams, more action, and more excitement!</p>
+        
+        <div class="countdown fade-in delay-2" id="countdown-container">
+            <div class="countdown-item">
+                <div class="countdown-number" id="days">00</div>
+                <div class="countdown-label">Days</div>
+            </div>
+            <div class="countdown-item">
+                <div class="countdown-number" id="hours">00</div>
+                <div class="countdown-label">Hours</div>
+            </div>
+            <div class="countdown-item">
+                <div class="countdown-number" id="minutes">00</div>
+                <div class="countdown-label">Minutes</div>
+            </div>
+            <div class="countdown-item">
+                <div class="countdown-number" id="seconds">00</div>
+                <div class="countdown-label">Seconds</div>
+            </div>
+        </div>
+        
+        <div class="fade-in delay-3">
+            <a href="#schedule" class="cta-button">View Schedule</a>
+            <a href="#groups" class="cta-button">See Groups</a>
+        </div>
+    </section>
+
+    <!-- Upcoming Matches Section -->
+    <section class="section" id="upcoming-matches">
+        <div class="section-title">
+            <h2>Upcoming Matches</h2>
+        </div>
+        
+        <div class="matches-grid" id="upcoming-matches-grid">
+            <!-- Matches will be populated from JavaScript -->
+        </div>
+        
+        <!-- Featured Teams -->
+        <div class="featured-teams fade-in delay-3">
+            <h3 style="text-align: center; margin-bottom: 1rem;">Featured Teams</h3>
+            <div class="teams-slider" id="featured-teams-slider">
+                <!-- Teams will be populated from JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Group Stage Section -->
+    <section class="section" id="groups">
+        <div class="section-title">
+            <h2>Group Stage</h2>
+        </div>
+        
+        <div class="groups-container" id="groups-container">
+            <!-- Groups will be populated from JavaScript -->
+        </div>
+    </section>
+
+    <!-- Knockout Stage Section -->
+    <section class="section" id="knockout">
+        <div class="section-title">
+            <h2>Knockout Stage</h2>
+        </div>
+        
+        <div class="bracket" id="bracket-container">
+            <!-- Bracket will be populated from JavaScript -->
+        </div>
+        
+        <div class="final-match" id="final-match-container">
+            <!-- Final match will be populated from JavaScript -->
+        </div>
+    </section>
+
+    <!-- Scoreboard Section -->
+    <section class="section" id="scoreboard">
+        <div class="section-title">
+            <h2>Scoreboard</h2>
+        </div>
+        
+        <div class="scoreboard-container">
+            <div class="scoreboard-header">
+                <h3>Team Rankings</h3>
+                <div class="filter-options">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="A">Group A</button>
+                    <button class="filter-btn" data-filter="B">Group B</button>
+                    <button class="filter-btn" data-filter="C">Group C</button>
+                    <button class="filter-btn" data-filter="D">Group D</button>
+                    <button class="filter-btn" data-filter="knockout">Knockout</button>
+                </div>
+            </div>
+            
+            <table class="standings-table" id="scoreboard-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Team</th>
+                        <th>MP</th>
+                        <th>W</th>
+                        <th>D</th>
+                        <th>L</th>
+                        <th>GF</th>
+                        <th>GA</th>
+                        <th>GD</th>
+                        <th>Pts</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Teams will be populated from JavaScript -->
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="stats-grid" id="stats-grid">
+            <!-- Stats will be populated from JavaScript -->
+        </div>
+    </section>
+
+    <!-- Schedule Section -->
+    <section class="section" id="schedule">
+        <div class="section-title">
+            <h2>Match Schedule</h2>
+        </div>
+        
+        <div class="calendar" id="schedule-calendar">
+            <!-- Calendar will be populated from JavaScript -->
+        </div>
+    </section>
+
+    <!-- Highlights Section -->
+    <section class="section" id="highlights">
+        <div class="section-title">
+            <h2>Match Highlights</h2>
+        </div>
+        
+        <div class="highlights-container" id="highlights-container">
+            <!-- Highlights will be populated from JavaScript -->
+        </div>
+    </section>
+
+    <!-- Admin Panel Section -->
+    <section class="section" id="admin" style="display: none;">
+        <div class="admin-container">
+            <div class="admin-header">
+                <h2>EFCL Admin Panel</h2>
+                <p>Manage all aspects of the E-Football Champions League tournament</p>
+            </div>
+            
+            <div class="admin-tabs">
+                <div class="admin-tab active" data-tab="teams">Teams</div>
+                <div class="admin-tab" data-tab="matches">Matches</div>
+                <div class="admin-tab" data-tab="knockouts">Knockouts</div>
+                <div class="admin-tab" data-tab="results">Results</div>
+                <div class="admin-tab" data-tab="logos">Logo Gallery</div>
+                <div class="admin-tab" data-tab="settings">Settings</div>
+            </div>
+            
+            <!-- Teams Tab -->
+            <div class="admin-content active" id="teams-tab">
+                <div class="admin-form">
+                    <h3>Add New Team</h3>
+                    <div class="form-group">
+                        <label for="team-name">Team Name</label>
+                        <input type="text" id="team-name" class="form-control" placeholder="Enter team name">
+                    </div>
+                    <div class="form-group">
+                        <label for="team-logo">Team Logo</label>
+                        <select id="team-logo" class="form-control">
+                            <option value="">Select Logo</option>
+                            <!-- Logos will be populated from JavaScript -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="team-group">Group</label>
+                        <select id="team-group" class="form-control">
+                            <option value="A">Group A</option>
+                            <option value="B">Group B</option>
+                            <option value="C">Group C</option>
+                            <option value="D">Group D</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-primary" id="add-team-btn">Add Team</button>
+                </div>
+                
+                <h3>Current Teams</h3>
+                <table class="admin-table" id="teams-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Team</th>
+                            <th>Group</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Teams will be populated from JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Matches Tab -->
+            <div class="admin-content" id="matches-tab">
+                <div class="admin-form">
+                    <h3>Add New Match</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="match-team1">Team 1</label>
+                            <select id="match-team1" class="form-control">
+                                <option value="">Select Team</option>
+                                <!-- Teams will be populated from JavaScript -->
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="match-team2">Team 2</label>
+                            <select id="match-team2" class="form-control">
+                                <option value="">Select Team</option>
+                                <!-- Teams will be populated from JavaScript -->
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="match-date">Date</label>
+                            <input type="date" id="match-date" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="match-time">Time</label>
+                            <input type="time" id="match-time" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="match-stage">Stage</label>
+                        <select id="match-stage" class="form-control">
+                            <option value="group">Group Stage</option>
+                            <option value="semifinal">Semifinal</option>
+                            <option value="final">Final</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="match-group">Group (if applicable)</label>
+                        <select id="match-group" class="form-control">
+                            <option value="A">Group A</option>
+                            <option value="B">Group B</option>
+                            <option value="C">Group C</option>
+                            <option value="D">Group D</option>
+                            <option value="">N/A</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-primary" id="add-match-btn">Add Match</button>
+                </div>
+                
+                <h3>Upcoming Matches</h3>
+                <table class="admin-table" id="matches-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Team 1</th>
+                            <th>Team 2</th>
+                            <th>Date & Time</th>
+                            <th>Stage</th>
+                            <th>Group</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Matches will be populated from JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Knockouts Tab -->
+            <div class="admin-content" id="knockouts-tab">
+                <div class="admin-form">
+                    <h3>Manage Knockout Stage</h3>
+                    <div class="form-group">
+                        <label for="knockout-type">Knockout Type</label>
+                        <select id="knockout-type" class="form-control">
+                            <option value="semifinal">Semifinal</option>
+                            <option value="final">Final</option>
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="knockout-team1">Team 1</label>
+                            <select id="knockout-team1" class="form-control">
+                                <option value="">Select Team</option>
+                                <!-- Teams will be populated from JavaScript -->
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="knockout-team2">Team 2</label>
+                            <select id="knockout-team2" class="form-control">
+                                <option value="">Select Team</option>
+                                <!-- Teams will be populated from JavaScript -->
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="knockout-date">Date</label>
+                            <input type="date" id="knockout-date" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="knockout-time">Time</label>
+                            <input type="time" id="knockout-time" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="knockout-title">Match Title (for Final)</label>
+                        <input type="text" id="knockout-title" class="form-control" placeholder="E.g., Grand Final">
+                    </div>
+                    <button class="btn btn-primary" id="add-knockout-btn">Add Knockout Match</button>
+                </div>
+                
+                <h3>Current Knockout Matches</h3>
+                <table class="admin-table" id="knockouts-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Team 1</th>
+                            <th>Team 2</th>
+                            <th>Date & Time</th>
+                            <th>Stage</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Knockout matches will be populated from JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Results Tab -->
+            <div class="admin-content" id="results-tab">
+                <div class="admin-form">
+                    <h3>Update Match Results</h3>
+                    <div class="form-group">
+                        <label for="result-match">Select Match</label>
+                        <select id="result-match" class="form-control">
+                            <option value="">Select Match</option>
+                            <!-- Matches will be populated from JavaScript -->
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="result-team1">Team 1 Score</label>
+                            <input type="number" id="result-team1" class="form-control" min="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="result-team2">Team 2 Score</label>
+                            <input type="number" id="result-team2" class="form-control" min="0">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="result-status">Match Status</label>
+                        <select id="result-status" class="form-control">
+                            <option value="upcoming">Upcoming</option>
+                            <option value="live">Live</option>
+                            <option value="completed">Completed</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="result-highlights">Highlights URL (optional)</label>
+                        <input type="text" id="result-highlights" class="form-control" placeholder="YouTube URL">
+                    </div>
+                    <button class="btn btn-primary" id="update-result-btn">Update Result</button>
+                </div>
+                
+                <h3>Recent Results</h3>
+                <table class="admin-table" id="results-table">
+                    <thead>
+                        <tr>
+                            <th>Match</th>
+                            <th>Score</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Results will be populated from JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Logo Gallery Tab -->
+            <div class="admin-content" id="logos-tab">
+                <div class="admin-form">
+                    <h3>Upload New Logo</h3>
+                    <div class="upload-area" id="upload-area">
+                        <i class="fas fa-cloud-upload-alt" style="font-size: 2rem; margin-bottom: 1rem; color: var(--primary);"></i>
+                        <p>Drag & drop logo image here or click to browse</p>
+                        <input type="file" id="logo-upload" accept="image/*" style="display: none;">
+                    </div>
+                    <div class="form-group">
+                        <label for="logo-name">Logo Name</label>
+                        <input type="text" id="logo-name" class="form-control" placeholder="Enter logo name">
+                    </div>
+                    <button class="btn btn-primary" id="upload-logo-btn">Upload Logo</button>
+                </div>
+                
+                <h3>Logo Gallery</h3>
+                <div class="logo-gallery" id="logo-gallery">
+                    <!-- Logos will be populated from JavaScript -->
+                </div>
+            </div>
+            
+            <!-- Settings Tab -->
+            <div class="admin-content" id="settings-tab">
+                <div class="admin-form">
+                    <h3>Tournament Settings</h3>
+                    <div class="form-group">
+                        <label for="tournament-name">Tournament Name</label>
+                        <input type="text" id="tournament-name" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="tournament-year">Year</label>
+                        <input type="text" id="tournament-year" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="tournament-logo">Logo URL</label>
+                        <input type="text" id="tournament-logo" class="form-control" placeholder="Enter logo URL">
+                    </div>
+                    <div class="form-group">
+                        <label for="featured-match">Featured Match (Homepage)</label>
+                        <select id="featured-match" class="form-control">
+                            <option value="">Select Match</option>
+                            <!-- Matches will be populated from JavaScript -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="show-countdown"> Show Countdown on Homepage
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label for="final-date">Final Match Date</label>
+                        <input type="date" id="final-date" class="form-control">
+                    </div>
+                    <button class="btn btn-primary" id="save-settings-btn">Save Settings</button>
+                </div>
+                
+                <h3>Admin Account</h3>
+                <div class="admin-form">
+                    <div class="form-group">
+                        <label for="admin-username">Username</label>
+                        <input type="text" id="admin-username" class="form-control" value="admin" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="admin-password">Password</label>
+                        <input type="password" id="admin-password" class="form-control" value="Eadmin">
+                    </div>
+                    <button class="btn btn-primary" id="update-credentials-btn">Update Credentials</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Login Modal -->
+    <div class="login-container" id="login-modal" style="display: none;">
+        <h2>Admin Login</h2>
+        <form class="login-form">
+            <div class="form-group">
+                <label for="login-username">Username</label>
+                <input type="text" id="login-username" class="form-control" placeholder="Enter username">
+            </div>
+            <div class="form-group">
+                <label for="login-password">Password</label>
+                <input type="password" id="login-password" class="form-control" placeholder="Enter password">
+            </div>
+            <button type="button" class="btn btn-primary" id="login-btn">Login</button>
+        </form>
+    </div>
+
+    <!-- Save Notification -->
+    <div class="save-notification" id="save-notification">
+        Changes saved successfully!
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>E-Football CL</h3>
+                <p>The premier virtual football competition featuring the best teams and players from around the world.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#groups">Group Stage</a></li>
+                    <li><a href="#knockout">Knockout Stage</a></li>
+                    <li><a href="#scoreboard">Scoreboard</a></li>
+                    <li><a href="#schedule">Schedule</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Teams</h3>
+                <ul class="footer-links" id="footer-teams">
+                    <!-- Teams will be populated from JavaScript -->
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Contact</h3>
+                <ul class="footer-links">
+                    <li><a href="mailto:info@efcl.com">info@efcl.com</a></li>
+                    <li><a href="tel:+1234567890">+1 (234) 567-890</a></li>
+                    <li><a href="#">Sponsorship</a></li>
+                    <li><a href="#">Press</a></li>
+                    <li><a href="#">Careers</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; <span id="current-year"></span> E-Football Champions League. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // ========== DATA MANAGEMENT ==========
+        // Initialize data structure if not exists
+        if (!localStorage.getItem('efclData')) {
+            const initialData = {
+                teams: [],
+                matches: [],
+                knockoutMatches: [],
+                results: [],
+                logos: [],
+                settings: {
+                    tournamentName: "E-Football Champions League",
+                    tournamentYear: new Date().getFullYear(),
+                    tournamentLogo: "",
+                    featuredMatch: null,
+                    showCountdown: true,
+                    finalDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+                    adminCredentials: {
+                        username: "admin",
+                        password: "Eadmin"
+                    }
+                }
+            };
+            localStorage.setItem('efclData', JSON.stringify(initialData));
+        }
+        
+        // Get all data
+        function getTournamentData() {
+            return JSON.parse(localStorage.getItem('efclData'));
+        }
+        
+        // Save all data
+        function saveTournamentData(data) {
+            localStorage.setItem('efclData', JSON.stringify(data));
+            showSaveNotification();
+            renderFrontend();
+        }
+        
+        // Show save notification
+        function showSaveNotification() {
+            const notification = document.getElementById('save-notification');
+            notification.classList.add('show');
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+        
+        // ========== TEAM MANAGEMENT ==========
+        // Add team
+        document.getElementById('add-team-btn').addEventListener('click', () => {
+            const name = document.getElementById('team-name').value;
+            const logo = document.getElementById('team-logo').value;
+            const group = document.getElementById('team-group').value;
+            
+            if (!name || !logo) {
+                alert('Please fill all fields');
+                return;
+            }
+            
+            const data = getTournamentData();
+            const newTeam = {
+                id: Date.now(),
+                name,
+                logo,
+                group,
+                matchesPlayed: 0,
+                wins: 0,
+                draws: 0,
+                losses: 0,
+                goalsFor: 0,
+                goalsAgainst: 0
+            };
+            
+            data.teams.push(newTeam);
+            saveTournamentData(data);
+            
+            // Clear form
+            document.getElementById('team-name').value = '';
+            document.getElementById('team-logo').value = '';
+        });
+        
+        // Delete team
+        function deleteTeam(id) {
+            const data = getTournamentData();
+            data.teams = data.teams.filter(team => team.id !== id);
+            
+            // Also remove any matches involving this team
+            data.matches = data.matches.filter(match => 
+                match.team1Id !== id && match.team2Id !== id
+            );
+            
+            data.knockoutMatches = data.knockoutMatches.filter(match => 
+                match.team1Id !== id && match.team2Id !== id
+            );
+            
+            saveTournamentData(data);
+        }
+        
+        // Render teams table
+        function renderTeamsTable() {
+            const data = getTournamentData();
+            const tableBody = document.querySelector('#teams-table tbody');
+            tableBody.innerHTML = '';
+            
+            data.teams.forEach(team => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${team.id}</td>
+                    <td class="team-cell">
+                        <img src="${team.logo}" alt="${team.name}" width="25">
+                        <span>${team.name}</span>
+                    </td>
+                    <td>${team.group}</td>
+                    <td class="action-btns">
+                        <button class="btn btn-danger btn-sm" onclick="deleteTeam(${team.id})">Delete</button>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+        
+        // ========== LOGO GALLERY ==========
+        // Upload logo
+        document.getElementById('upload-logo-btn').addEventListener('click', () => {
+            const fileInput = document.getElementById('logo-upload');
+            const name = document.getElementById('logo-name').value;
+            
+            if (!name || !fileInput.files[0]) {
+                alert('Please select a logo image and enter a name');
+                return;
+            }
+            
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                const data = getTournamentData();
+                const newLogo = {
+                    id: Date.now(),
+                    name,
+                    url: e.target.result
+                };
+                
+                data.logos.push(newLogo);
+                saveTournamentData(data);
+                
+                // Clear form
+                document.getElementById('logo-name').value = '';
+                fileInput.value = '';
+            };
+            
+            reader.readAsDataURL(file);
+        });
+        
+        // Delete logo
+        function deleteLogo(id) {
+            const data = getTournamentData();
+            data.logos = data.logos.filter(logo => logo.id !== id);
+            saveTournamentData(data);
+        }
+        
+        // Render logo gallery
+        function renderLogoGallery() {
+            const data = getTournamentData();
+            const gallery = document.getElementById('logo-gallery');
+            gallery.innerHTML = '';
+            
+            data.logos.forEach(logo => {
+                const logoItem = document.createElement('div');
+                logoItem.className = 'logo-item';
+                logoItem.innerHTML = `
+                    <img src="${logo.url}" alt="${logo.name}">
+                    <p>${logo.name}</p>
+                    <div class="delete-logo" onclick="deleteLogo(${logo.id})">
+                        <i class="fas fa-times"></i>
+                    </div>
+                `;
+                gallery.appendChild(logoItem);
+            });
+        }
+        
+        // ========== MATCH MANAGEMENT ==========
+        // Add match
+        document.getElementById('add-match-btn').addEventListener('click', () => {
+            const team1Id = parseInt(document.getElementById('match-team1').value);
+            const team2Id = parseInt(document.getElementById('match-team2').value);
+            const date = document.getElementById('match-date').value;
+            const time = document.getElementById('match-time').value;
+            const stage = document.getElementById('match-stage').value;
+            const group = document.getElementById('match-group').value;
+            
+            if (!team1Id || !team2Id || !date || !time) {
+                alert('Please fill all required fields');
+                return;
+            }
+            
+            if (team1Id === team2Id) {
+                alert('A team cannot play against itself');
+                return;
+            }
+            
+            const data = getTournamentData();
+            const newMatch = {
+                id: Date.now(),
+                team1Id,
+                team2Id,
+                date,
+                time,
+                stage,
+                group: stage === 'group' ? group : null,
+                status: 'upcoming',
+                team1Score: null,
+                team2Score: null,
+                highlights: null
+            };
+            
+            data.matches.push(newMatch);
+            saveTournamentData(data);
+            
+            // Clear form
+            document.getElementById('match-team1').value = '';
+            document.getElementById('match-team2').value = '';
+            document.getElementById('match-date').value = '';
+            document.getElementById('match-time').value = '';
+            document.getElementById('match-stage').value = 'group';
+            document.getElementById('match-group').value = 'A';
+        });
+        
+        // Delete match
+        function deleteMatch(id) {
+            const data = getTournamentData();
+            data.matches = data.matches.filter(match => match.id !== id);
+            data.results = data.results.filter(result => result.matchId !== id);
+            saveTournamentData(data);
+        }
+        
+        // Render matches table
+        function renderMatchesTable() {
+            const data = getTournamentData();
+            const tableBody = document.querySelector('#matches-table tbody');
+            tableBody.innerHTML = '';
+            
+            data.matches.forEach(match => {
+                const team1 = data.teams.find(t => t.id === match.team1Id);
+                const team2 = data.teams.find(t => t.id === match.team2Id);
+                
+                if (!team1 || !team2) return;
+                
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${match.id}</td>
+                    <td class="team-cell">
+                        <img src="${team1.logo}" alt="${team1.name}" width="20">
+                        <span>${team1.name}</span>
+                    </td>
+                    <td class="team-cell">
+                        <img src="${team2.logo}" alt="${team2.name}" width="20">
+                        <span>${team2.name}</span>
+                    </td>
+                    <td>${match.date} ${match.time}</td>
+                    <td>${match.stage.charAt(0).toUpperCase() + match.stage.slice(1)}</td>
+                    <td>${match.group || 'N/A'}</td>
+                    <td class="action-btns">
+                        <button class="btn btn-danger btn-sm" onclick="deleteMatch(${match.id})">Delete</button>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+        
+        // ========== KNOCKOUT MATCH MANAGEMENT ==========
+        // Add knockout match
+        document.getElementById('add-knockout-btn').addEventListener('click', () => {
+            const type = document.getElementById('knockout-type').value;
+            const team1Id = parseInt(document.getElementById('knockout-team1').value);
+            const team2Id = parseInt(document.getElementById('knockout-team2').value);
+            const date = document.getElementById('knockout-date').value;
+            const time = document.getElementById('knockout-time').value;
+            const title = document.getElementById('knockout-title').value;
+            
+            if (!team1Id || !team2Id || !date || !time) {
+                alert('Please fill all required fields');
+                return;
+            }
+            
+            if (team1Id === team2Id) {
+                alert('A team cannot play against itself');
+                return;
+            }
+            
+            const data = getTournamentData();
+            const newMatch = {
+                id: Date.now(),
+                team1Id,
+                team2Id,
+                date,
+                time,
+                stage: type,
+                title: type === 'final' ? title : null,
+                status: 'upcoming',
+                team1Score: null,
+                team2Score: null,
+                highlights: null
+            };
+            
+            data.knockoutMatches.push(newMatch);
+            saveTournamentData(data);
+            
+            // Clear form
+            document.getElementById('knockout-team1').value = '';
+            document.getElementById('knockout-team2').value = '';
+            document.getElementById('knockout-date').value = '';
+            document.getElementById('knockout-time').value = '';
+            document.getElementById('knockout-title').value = '';
+        });
+        
+        // Delete knockout match
+        function deleteKnockoutMatch(id) {
+            const data = getTournamentData();
+            data.knockoutMatches = data.knockoutMatches.filter(match => match.id !== id);
+            data.results = data.results.filter(result => result.matchId !== id);
+            saveTournamentData(data);
+        }
+        
+        // Render knockout matches table
+        function renderKnockoutMatchesTable() {
+            const data = getTournamentData();
+            const tableBody = document.querySelector('#knockouts-table tbody');
+            tableBody.innerHTML = '';
+            
+            data.knockoutMatches.forEach(match => {
+                const team1 = data.teams.find(t => t.id === match.team1Id);
+                const team2 = data.teams.find(t => t.id === match.team2Id);
+                
+                if (!team1 || !team2) return;
+                
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${match.id}</td>
+                    <td class="team-cell">
+                        <img src="${team1.logo}" alt="${team1.name}" width="20">
+                        <span>${team1.name}</span>
+                    </td>
+                    <td class="team-cell">
+                        <img src="${team2.logo}" alt="${team2.name}" width="20">
+                        <span>${team2.name}</span>
+                    </td>
+                    <td>${match.date} ${match.time}</td>
+                    <td>${match.stage.charAt(0).toUpperCase() + match.stage.slice(1)}</td>
+                    <td class="action-btns">
+                        <button class="btn btn-danger btn-sm" onclick="deleteKnockoutMatch(${match.id})">Delete</button>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+        
+        // ========== RESULTS MANAGEMENT ==========
+        // Update result
+        document.getElementById('update-result-btn').addEventListener('click', () => {
+            const matchId = parseInt(document.getElementById('result-match').value);
+            const team1Score = parseInt(document.getElementById('result-team1').value);
+            const team2Score = parseInt(document.getElementById('result-team2').value);
+            const status = document.getElementById('result-status').value;
+            const highlights = document.getElementById('result-highlights').value;
+            
+            if (!matchId || isNaN(team1Score) || isNaN(team2Score) || !status) {
+                alert('Please fill all required fields');
+                return;
+            }
+            
+            const data = getTournamentData();
+            
+            // Find the match in either matches or knockoutMatches
+            let match = data.matches.find(m => m.id === matchId);
+            let isKnockout = false;
+            
+            if (!match) {
+                match = data.knockoutMatches.find(m => m.id === matchId);
+                isKnockout = true;
+            }
+            
+            if (!match) {
+                alert('Match not found');
+                return;
+            }
+            
+            // Update match details
+            match.status = status;
+            match.team1Score = team1Score;
+            match.team2Score = team2Score;
+            match.highlights = highlights;
+            
+            // Add/update result
+            const existingResultIndex = data.results.findIndex(r => r.matchId === matchId);
+            
+            if (existingResultIndex !== -1) {
+                data.results[existingResultIndex] = {
+                    matchId,
+                    team1Score,
+                    team2Score,
+                    status,
+                    highlights
+                };
+            } else {
+                data.results.push({
+                    matchId,
+                    team1Score,
+                    team2Score,
+                    status,
+                    highlights
+                });
+            }
+            
+            // Update team statistics if match is completed
+            if (status === 'completed') {
+                const team1 = data.teams.find(t => t.id === match.team1Id);
+                const team2 = data.teams.find(t => t.id === match.team2Id);
+                
+                if (team1 && team2) {
+                    team1.matchesPlayed++;
+                    team2.matchesPlayed++;
+                    
+                    team1.goalsFor += team1Score;
+                    team1.goalsAgainst += team2Score;
+                    team2.goalsFor += team2Score;
+                    team2.goalsAgainst += team1Score;
+                    
+                    if (team1Score > team2Score) {
+                        team1.wins++;
+                        team2.losses++;
+                    } else if (team1Score < team2Score) {
+                        team1.losses++;
+                        team2.wins++;
+                    } else {
+                        team1.draws++;
+                        team2.draws++;
+                    }
+                }
+            }
+            
+            saveTournamentData(data);
+            
+            // Clear form
+            document.getElementById('result-match').value = '';
+            document.getElementById('result-team1').value = '';
+            document.getElementById('result-team2').value = '';
+            document.getElementById('result-status').value = 'upcoming';
+            document.getElementById('result-highlights').value = '';
+        });
+        
+        // Delete result
+        function deleteResult(matchId) {
+            const data = getTournamentData();
+            data.results = data.results.filter(result => result.matchId !== matchId);
+            
+            // Reset match status
+            let match = data.matches.find(m => m.id === matchId);
+            
+            if (match) {
+                match.status = 'upcoming';
+                match.team1Score = null;
+                match.team2Score = null;
+                match.highlights = null;
+            } else {
+                match = data.knockoutMatches.find(m => m.id === matchId);
+                if (match) {
+                    match.status = 'upcoming';
+                    match.team1Score = null;
+                    match.team2Score = null;
+                    match.highlights = null;
+                }
+            }
+            
+            saveTournamentData(data);
+        }
+        
+        // Render results table
+        function renderResultsTable() {
+            const data = getTournamentData();
+            const tableBody = document.querySelector('#results-table tbody');
+            tableBody.innerHTML = '';
+            
+            data.results.forEach(result => {
+                // Find the match
+                let match = data.matches.find(m => m.id === result.matchId);
+                let isKnockout = false;
+                
+                if (!match) {
+                    match = data.knockoutMatches.find(m => m.id === result.matchId);
+                    isKnockout = true;
+                }
+                
+                if (!match) return;
+                
+                const team1 = data.teams.find(t => t.id === match.team1Id);
+                const team2 = data.teams.find(t => t.id === match.team2Id);
+                
+                if (!team1 || !team2) return;
+                
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${team1.name} vs ${team2.name}</td>
+                    <td>${result.team1Score} - ${result.team2Score}</td>
+                    <td>${result.status.charAt(0).toUpperCase() + result.status.slice(1)}</td>
+                    <td class="action-btns">
+                        <button class="btn btn-danger btn-sm" onclick="deleteResult(${result.matchId})">Delete</button>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+        
+        // ========== SETTINGS MANAGEMENT ==========
+        // Save settings
+        document.getElementById('save-settings-btn').addEventListener('click', () => {
+            const name = document.getElementById('tournament-name').value;
+            const year = document.getElementById('tournament-year').value;
+            const logo = document.getElementById('tournament-logo').value;
+            const featuredMatch = parseInt(document.getElementById('featured-match').value);
+            const showCountdown = document.getElementById('show-countdown').checked;
+            const finalDate = document.getElementById('final-date').value;
+            
+            const data = getTournamentData();
+            
+            data.settings.tournamentName = name;
+            data.settings.tournamentYear = year;
+            data.settings.tournamentLogo = logo;
+            data.settings.featuredMatch = featuredMatch;
+            data.settings.showCountdown = showCountdown;
+            data.settings.finalDate = finalDate;
+            
+            saveTournamentData(data);
+        });
+        
+        // Update admin credentials
+        document.getElementById('update-credentials-btn').addEventListener('click', () => {
+            const username = document.getElementById('admin-username').value;
+            const password = document.getElementById('admin-password').value;
+            
+            const data = getTournamentData();
+            data.settings.adminCredentials.username = username;
+            data.settings.adminCredentials.password = password;
+            
+            saveTournamentData(data);
+            alert('Admin credentials updated successfully!');
+        });
+        
+        // ========== FRONTEND RENDERING ==========
+        function renderFrontend() {
+            const data = getTournamentData();
+            
+            // Tournament title
+            document.getElementById('tournament-title').textContent = 
+                `${data.settings.tournamentName} ${data.settings.tournamentYear}`;
+            
+            // Countdown
+            if (data.settings.showCountdown && data.settings.finalDate) {
+                document.getElementById('countdown-container').style.display = 'flex';
+                updateCountdown();
+            } else {
+                document.getElementById('countdown-container').style.display = 'none';
+            }
+            
+            // Upcoming matches
+            renderUpcomingMatches();
+            
+            // Featured teams
+            renderFeaturedTeams();
+            
+            // Group stage
+            renderGroupStage();
+            
+            // Knockout stage
+            renderKnockoutStage();
+            
+            // Scoreboard
+            renderScoreboard();
+            
+            // Schedule
+            renderSchedule();
+            
+            // Highlights
+            renderHighlights();
+            
+            // Footer
+            renderFooter();
+        }
+        
+        function renderUpcomingMatches() {
+            const data = getTournamentData();
+            const container = document.getElementById('upcoming-matches-grid');
+            container.innerHTML = '';
+            
+            // Get upcoming matches (status is upcoming or live, and date is today or in the future)
+            const today = new Date().toISOString().split('T')[0];
+            const upcomingMatches = data.matches
+                .filter(match => 
+                    (match.status === 'upcoming' || match.status === 'live') && 
+                    match.date >= today
+                )
+                .sort((a, b) => {
+                    if (a.date === b.date) {
+                        return a.time.localeCompare(b.time);
+                    }
+                    return a.date.localeCompare(b.date);
+                })
+                .slice(0, 3); // Show only 3 upcoming matches
+            
+            if (upcomingMatches.length === 0) {
+                container.innerHTML = '<p>No upcoming matches scheduled yet.</p>';
+                return;
+            }
+            
+            upcomingMatches.forEach(match => {
+                const team1 = data.teams.find(t => t.id === match.team1Id);
+                const team2 = data.teams.find(t => t.id === match.team2Id);
+                
+                if (!team1 || !team2) return;
+                
+                const matchCard = document.createElement('div');
+                matchCard.className = 'match-card fade-in';
+                matchCard.innerHTML = `
+                    <div class="match-header">${match.group ? `Group ${match.group}` : match.stage.charAt(0).toUpperCase() + match.stage.slice(1)}</div>
+                    <div class="match-body">
+                        <div class="teams">
+                            <div class="team">
+                                <img src="${team1.logo}" alt="${team1.name}" class="team-logo">
+                                <div class="team-name">${team1.name}</div>
+                            </div>
+                            <div class="vs">VS</div>
+                            <div class="team">
+                                <img src="${team2.logo}" alt="${team2.name}" class="team-logo">
+                                <div class="team-name">${team2.name}</div>
+                            </div>
+                        </div>
+                        <div class="match-details">
+                            <div class="match-time">${formatDate(match.date)}, ${match.time}</div>
+                            <div class="match-venue">Virtual Stadium</div>
+                        </div>
+                    </div>
+                    <div class="match-status">${match.status.charAt(0).toUpperCase() + match.status.slice(1)}</div>
+                `;
+                container.appendChild(matchCard);
+            });
+        }
+        
+        function renderFeaturedTeams() {
+            const data = getTournamentData();
+            const container = document.getElementById('featured-teams-slider');
+            container.innerHTML = '';
+            
+            // Get top 4 teams by points
+            const featuredTeams = [...data.teams]
+                .sort((a, b) => (b.wins * 3 + b.draws) - (a.wins * 3 + a.draws))
+                .slice(0, 4);
+            
+            if (featuredTeams.length === 0) {
+                container.innerHTML = '<p>No teams added yet.</p>';
+                return;
+            }
+            
+            featuredTeams.forEach(team => {
+                const teamCard = document.createElement('div');
+                teamCard.className = 'team-card';
+                teamCard.innerHTML = `
+                    <img src="${team.logo}" alt="${team.name}" class="team-card-img">
+                    <div class="team-card-body">
+                        <h3 class="team-card-title">${team.name}</h3>
+                        <p>Group ${team.group}</p>
+                        <div class="team-card-stats">
+                            <div class="stat">
+                                <div class="stat-value">${team.wins}</div>
+                                <div class="stat-label">Wins</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">${team.goalsFor}</div>
+                                <div class="stat-label">Goals</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">${team.wins * 3 + team.draws}</div>
+                                <div class="stat-label">Points</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(teamCard);
+            });
+        }
+        
+        function renderGroupStage() {
+            const data = getTournamentData();
+            const container = document.getElementById('groups-container');
+            container.innerHTML = '';
+            
+            // Create groups A-D
+            const groups = {
+                A: [],
+                B: [],
+                C: [],
+                D: []
+            };
+            
+            data.teams.forEach(team => {
+                if (groups[team.group]) {
+                    groups[team.group].push(team);
+                }
+            });
+            
+            // Sort teams in each group by points
+            for (const group in groups) {
+                groups[group].sort((a, b) => {
+                    const pointsA = a.wins * 3 + a.draws;
+                    const pointsB = b.wins * 3 + b.draws;
+                    
+                    if (pointsA !== pointsB) return pointsB - pointsA;
+                    return (b.goalsFor - b.goalsAgainst) - (a.goalsFor - a.goalsAgainst);
+                });
+            }
+            
+            // Render each group
+            for (const group in groups) {
+                const groupCard = document.createElement('div');
+                groupCard.className = 'group-card fade-in';
+                groupCard.innerHTML = `
+                    <div class="group-header">Group ${group}</div>
+                    <div class="group-body">
+                        <table class="standings-table">
+                            <thead>
+                                <tr>
+                                    <th>Team</th>
+                                    <th>MP</th>
+                                    <th>W</th>
+                                    <th>D</th>
+                                    <th>L</th>
+                                    <th>Pts</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${groups[group].map((team, index) => `
+                                    <tr ${index < 2 ? 'class="qualified"' : ''}>
+                                        <td class="team-cell">
+                                            <img src="${team.logo}" alt="${team.name}">
+                                            <span>${team.name}</span>
+                                        </td>
+                                        <td>${team.matchesPlayed}</td>
+                                        <td>${team.wins}</td>
+                                        <td>${team.draws}</td>
+                                        <td>${team.losses}</td>
+                                        <td>${team.wins * 3 + team.draws}</td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+                container.appendChild(groupCard);
+            }
+        }
+        
+        function renderKnockoutStage() {
+            const data = getTournamentData();
+            const bracketContainer = document.getElementById('bracket-container');
+            const finalContainer = document.getElementById('final-match-container');
+            
+            bracketContainer.innerHTML = '';
+            finalContainer.innerHTML = '';
+            
+            // Get semifinals and final
+            const semifinals = data.knockoutMatches.filter(m => m.stage === 'semifinal');
+            const final = data.knockoutMatches.find(m => m.stage === 'final');
+            
+            if (semifinals.length > 0) {
+                const round = document.createElement('div');
+                round.className = 'round';
+                round.innerHTML = '<div class="round-title">Semifinals</div>';
+                
+                semifinals.forEach(match => {
+                    const team1 = data.teams.find(t => t.id === match.team1Id);
+                    const team2 = data.teams.find(t => t.id === match.team2Id);
+                    
+                    if (!team1 || !team2) return;
+                    
+                    const matchup = document.createElement('div');
+                    matchup.className = 'matchup';
+                    
+                    // Team 1
+                    const team1El = document.createElement('div');
+                    team1El.className = `team-bracket ${match.status === 'completed' && match.team1Score > match.team2Score ? 'winner' : ''}`;
+                    team1El.innerHTML = `
+                        <img src="${team1.logo}" alt="${team1.name}">
+                        <span>${team1.name}</span>
+                        ${match.status === 'completed' ? `<span class="score">${match.team1Score}</span>` : ''}
+                    `;
+                    
+                    // Team 2
+                    const team2El = document.createElement('div');
+                    team2El.className = `team-bracket ${match.status === 'completed' && match.team2Score > match.team1Score ? 'winner' : ''}`;
+                    team2El.innerHTML = `
+                        <img src="${team2.logo}" alt="${team2.name}">
+                        <span>${team2.name}</span>
+                        ${match.status === 'completed' ? `<span class="score">${match.team2Score}</span>` : ''}
+                    `;
+                    
+                    matchup.appendChild(team1El);
+                    matchup.appendChild(team2El);
+                    round.appendChild(matchup);
+                });
+                
+                bracketContainer.appendChild(round);
+            }
+            
+            if (final) {
+                const team1 = data.teams.find(t => t.id === final.team1Id);
+                const team2 = data.teams.find(t => t.id === final.team2Id);
+                
+                if (team1 && team2) {
+                    if (final.status === 'completed') {
+                        finalContainer.innerHTML = `
+                            <h3>${final.title || 'Grand Final'}</h3>
+                            <div class="champion">
+                                <img src="${final.team1Score > final.team2Score ? team1.logo : team2.logo}" alt="Champion">
+                                <h3>${final.team1Score > final.team2Score ? team1.name : team2.name}</h3>
+                                <p>${data.settings.tournamentYear} E-Football Champions League Winners</p>
+                                <p>Final Score: ${final.team1Score}-${final.team2Score}</p>
+                            </div>
+                        `;
+                    } else {
+                        finalContainer.innerHTML = `
+                            <h3>${final.title || 'Grand Final'} - Coming Soon</h3>
+                            <p>The ultimate showdown between ${team1.name} and ${team2.name} will take place on ${formatDate(final.date)} at ${final.time}.</p>
+                        `;
+                    }
+                }
+            }
+        }
+        
+        function renderScoreboard() {
+            const data = getTournamentData();
+            const tableBody = document.querySelector('#scoreboard-table tbody');
+            const statsContainer = document.getElementById('stats-grid');
+            
+            tableBody.innerHTML = '';
+            statsContainer.innerHTML = '';
+            
+            // Sort teams by points
+            const sortedTeams = [...data.teams].sort((a, b) => {
+                const pointsA = a.wins * 3 + a.draws;
+                const pointsB = b.wins * 3 + b.draws;
+                
+                if (pointsA !== pointsB) return pointsB - pointsA;
+                return (b.goalsFor - b.goalsAgainst) - (a.goalsFor - a.goalsAgainst);
+            });
+            
+            // Render teams
+            sortedTeams.forEach((team, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td class="team-cell">
+                        <img src="${team.logo}" alt="${team.name}">
+                        <span>${team.name}</span>
+                    </td>
+                    <td>${team.matchesPlayed}</td>
+                    <td>${team.wins}</td>
+                    <td>${team.draws}</td>
+                    <td>${team.losses}</td>
+                    <td>${team.goalsFor}</td>
+                    <td>${team.goalsAgainst}</td>
+                    <td>${team.goalsFor - team.goalsAgainst}</td>
+                    <td>${team.wins * 3 + team.draws}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+            
+            // Render stats
+            if (sortedTeams.length > 0) {
+                // Top scorer (simplified - in real app would track players)
+                statsContainer.innerHTML = `
+                    <div class="stat-card">
+                        <i class="fas fa-futbol"></i>
+                        <h3>Top Scorer</h3>
+                        <p>${sortedTeams[0].name} - ${Math.floor(sortedTeams[0].goalsFor * 0.7)} goals</p>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-assistive-listening-systems"></i>
+                        <h3>Most Assists</h3>
+                        <p>${sortedTeams[1].name} - ${Math.floor(sortedTeams[1].goalsFor * 0.5)} assists</p>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-tshirt"></i>
+                        <h3>Clean Sheets</h3>
+                        <p>${sortedTeams[2].name} - ${Math.floor(sortedTeams[2].wins * 0.6)} clean sheets</p>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-star"></i>
+                        <h3>MVP</h3>
+                        <p>${sortedTeams[0].name} - Rating ${(8.5 + Math.random() * 0.5).toFixed(1)}</p>
+                    </div>
+                `;
+            }
+        }
+        
+        function renderSchedule() {
+            const data = getTournamentData();
+            const container = document.getElementById('schedule-calendar');
+            
+            // For simplicity, we'll just show all matches in a list
+            container.innerHTML = `
+                <div class="calendar-header">
+                    <h3>All Matches</h3>
+                </div>
+                <div style="padding: 1rem;">
+                    ${[...data.matches, ...data.knockoutMatches]
+                        .sort((a, b) => {
+                            if (a.date === b.date) {
+                                return a.time.localeCompare(b.time);
+                            }
+                            return a.date.localeCompare(b.date);
+                        })
+                        .map(match => {
+                            const team1 = data.teams.find(t => t.id === match.team1Id);
+                            const team2 = data.teams.find(t => t.id === match.team2Id);
+                            
+                            if (!team1 || !team2) return '';
+                            
+                            return `
+                                <div class="calendar-event">
+                                    <strong>${match.group ? `Group ${match.group}` : match.stage.charAt(0).toUpperCase() + match.stage.slice(1)}</strong><br>
+                                    ${team1.name} vs ${team2.name}<br>
+                                    ${formatDate(match.date)}, ${match.time}
+                                    ${match.status === 'completed' ? ` (${match.team1Score}-${match.team2Score})` : ''}
+                                </div>
+                            `;
+                        })
+                        .join('')}
+                </div>
+            `;
+        }
+        
+        function renderHighlights() {
+            const data = getTournamentData();
+            const container = document.getElementById('highlights-container');
+            container.innerHTML = '';
+            
+            const matchesWithHighlights = [...data.matches, ...data.knockoutMatches]
+                .filter(match => match.highlights)
+                .sort((a, b) => new Date(b.date) - new Date(a.date))
+                .slice(0, 3); // Show only 3 highlights
+            
+            if (matchesWithHighlights.length === 0) {
+                container.innerHTML = '<p>No highlights available yet.</p>';
+                return;
+            }
+            
+            matchesWithHighlights.forEach(match => {
+                const team1 = data.teams.find(t => t.id === match.team1Id);
+                const team2 = data.teams.find(t => t.id === match.team2Id);
+                
+                if (!team1 || !team2) return;
+                
+                // Extract YouTube video ID from URL
+                const videoId = match.highlights.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/);
+                
+                const highlightCard = document.createElement('div');
+                highlightCard.className = 'highlight-card fade-in';
+                highlightCard.innerHTML = `
+                    <div class="highlight-video">
+                        ${videoId ? `
+                            <iframe src="https://www.youtube.com/embed/${videoId[1]}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        ` : `
+                            <div style="display: flex; align-items: center; justify-content: center; height: 100%; background: #000;">
+                                <p>Invalid video URL</p>
+                            </div>
+                        `}
+                    </div>
+                    <div class="highlight-body">
+                        <h3 class="highlight-title">${team1.name} vs ${team2.name} - Highlights</h3>
+                        <div class="highlight-meta">
+                            <span><i class="far fa-calendar-alt"></i> ${formatDate(match.date)}</span>
+                            <span><i class="far fa-clock"></i> ${match.time}</span>
+                        </div>
+                        <p class="highlight-desc">Watch the highlights from this exciting match in the ${match.group ? `Group ${match.group}` : match.stage} stage.</p>
+                    </div>
+                `;
+                container.appendChild(highlightCard);
+            });
+        }
+        
+        function renderFooter() {
+            const data = getTournamentData();
+            const footerTeams = document.getElementById('footer-teams');
+            const currentYear = document.getElementById('current-year');
+            
+            footerTeams.innerHTML = '';
+            currentYear.textContent = new Date().getFullYear();
+            
+            // Add top 5 teams to footer
+            const topTeams = [...data.teams]
+                .sort((a, b) => (b.wins * 3 + b.draws) - (a.wins * 3 + a.draws))
+                .slice(0, 5);
+            
+            topTeams.forEach(team => {
+                const li = document.createElement('li');
+                li.innerHTML = `<a href="#">${team.name}</a>`;
+                footerTeams.appendChild(li);
+            });
+        }
+        
+        // ========== ADMIN PANEL RENDERING ==========
+        function renderAdminPanel() {
+            const data = getTournamentData();
+            
+            // Teams tab
+            renderTeamsTable();
+            
+            // Matches tab
+            renderMatchesTable();
+            
+            // Knockouts tab
+            renderKnockoutMatchesTable();
+            
+            // Results tab
+            renderResultsTable();
+            
+            // Logo gallery
+            renderLogoGallery();
+            
+            // Settings tab
+            renderSettingsForm();
+            
+            // Update all selectors
+            updateTeamSelectors();
+            updateLogoSelectors();
+            updateMatchSelectors();
+        }
+        
+        function renderSettingsForm() {
+            const data = getTournamentData();
+            
+            document.getElementById('tournament-name').value = data.settings.tournamentName;
+            document.getElementById('tournament-year').value = data.settings.tournamentYear;
+            document.getElementById('tournament-logo').value = data.settings.tournamentLogo;
+            document.getElementById('show-countdown').checked = data.settings.showCountdown;
+            document.getElementById('final-date').value = data.settings.finalDate;
+            
+            // Admin credentials
+            document.getElementById('admin-username').value = data.settings.adminCredentials.username;
+            document.getElementById('admin-password').value = data.settings.adminCredentials.password;
+        }
+        
+        // ========== SELECTOR UPDATES ==========
+        function updateTeamSelectors() {
+            const data = getTournamentData();
+            const teamSelectors = [
+                document.getElementById('match-team1'),
+                document.getElementById('match-team2'),
+                document.getElementById('knockout-team1'),
+                document.getElementById('knockout-team2'),
+                document.getElementById('result-match'),
+                document.getElementById('featured-match'),
+                document.getElementById('footer-teams')
+            ];
+            
+            teamSelectors.forEach(selector => {
+                if (!selector) return;
+                
+                const currentValue = selector.value;
+                selector.innerHTML = '<option value="">Select Team</option>';
+                
+                data.teams.forEach(team => {
+                    const option = document.createElement('option');
+                    option.value = team.id;
+                    option.textContent = team.name;
+                    selector.appendChild(option);
+                });
+                
+                // For result-match selector, include knockout matches
+                if (selector.id === 'result-match') {
+                    data.knockoutMatches.forEach(match => {
+                        const team1 = data.teams.find(t => t.id === match.team1Id);
+                        const team2 = data.teams.find(t => t.id === match.team2Id);
+                        
+                        if (team1 && team2) {
+                            const option = document.createElement('option');
+                            option.value = match.id;
+                            option.textContent = `${team1.name} vs ${team2.name} (${match.stage})`;
+                            selector.appendChild(option);
+                        }
+                    });
+                }
+                
+                // Restore selected value if still available
+                if (currentValue) {
+                    const optionExists = Array.from(selector.options).some(opt => opt.value === currentValue);
+                    if (optionExists) {
+                        selector.value = currentValue;
+                    }
+                }
+            });
+        }
+        
+        function updateLogoSelectors() {
+            const data = getTournamentData();
+            const logoSelectors = [
+                document.getElementById('team-logo'),
+                document.getElementById('tournament-logo')
+            ];
+            
+            logoSelectors.forEach(selector => {
+                if (!selector) return;
+                
+                const currentValue = selector.value;
+                selector.innerHTML = '<option value="">Select Logo</option>';
+                
+                data.logos.forEach(logo => {
+                    const option = document.createElement('option');
+                    option.value = logo.url;
+                    option.textContent = logo.name;
+                    selector.appendChild(option);
+                });
+                
+                // Restore selected value if still available
+                if (currentValue && data.logos.some(logo => logo.url === currentValue)) {
+                    selector.value = currentValue;
+                }
+            });
+        }
+        
+        function updateMatchSelectors() {
+            const data = getTournamentData();
+            const matchSelectors = [
+                document.getElementById('featured-match'),
+                document.getElementById('result-match')
+            ];
+            
+            matchSelectors.forEach(selector => {
+                if (!selector) return;
+                
+                const currentValue = selector.value;
+                selector.innerHTML = '<option value="">Select Match</option>';
+                
+                // Add group matches
+                data.matches.forEach(match => {
+                    const team1 = data.teams.find(t => t.id === match.team1Id);
+                    const team2 = data.teams.find(t => t.id === match.team2Id);
+                    
+                    if (team1 && team2) {
+                        const option = document.createElement('option');
+                        option.value = match.id;
+                        option.textContent = `${team1.name} vs ${team2.name} (Group ${match.group})`;
+                        selector.appendChild(option);
+                    }
+                });
+                
+                // Add knockout matches
+                data.knockoutMatches.forEach(match => {
+                    const team1 = data.teams.find(t => t.id === match.team1Id);
+                    const team2 = data.teams.find(t => t.id === match.team2Id);
+                    
+                    if (team1 && team2) {
+                        const option = document.createElement('option');
+                        option.value = match.id;
+                        option.textContent = `${team1.name} vs ${team2.name} (${match.stage})`;
+                        selector.appendChild(option);
+                    }
+                });
+                
+                // Restore selected value if still available
+                if (currentValue) {
+                    const optionExists = Array.from(selector.options).some(opt => opt.value === currentValue);
+                    if (optionExists) {
+                        selector.value = currentValue;
+                    }
+                }
+            });
+        }
+        
+        // ========== UTILITY FUNCTIONS ==========
+        function formatDate(dateString) {
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            return new Date(dateString).toLocaleDateString(undefined, options);
+        }
+        
+        function updateCountdown() {
+            const data = getTournamentData();
+            
+            if (!data.settings.finalDate) return;
+            
+            const finalDate = new Date(data.settings.finalDate);
+            const now = new Date();
+            
+            const diff = finalDate - now;
+            
+            if (diff <= 0) {
+                document.getElementById('days').textContent = '00';
+                document.getElementById('hours').textContent = '00';
+                document.getElementById('minutes').textContent = '00';
+                document.getElementById('seconds').textContent = '00';
+                return;
+            }
+            
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            
+            document.getElementById('days').textContent = days.toString().padStart(2, '0');
+            document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+            document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+            document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+        }
+        
+        function updateLiveTicker() {
+            const data = getTournamentData();
+            const liveMatches = [...data.matches, ...data.knockoutMatches]
+                .filter(match => match.status === 'live')
+                .slice(0, 2); // Show only 2 live matches
+            
+            const upcomingMatches = [...data.matches, ...data.knockoutMatches]
+                .filter(match => match.status === 'upcoming')
+                .sort((a, b) => new Date(a.date) - new Date(b.date))
+                .slice(0, 1); // Show only 1 upcoming match
+            
+            let tickerText = '';
+            
+            if (liveMatches.length > 0) {
+                liveMatches.forEach(match => {
+                    const team1 = data.teams.find(t => t.id === match.team1Id);
+                    const team2 = data.teams.find(t => t.id === match.team2Id);
+                    
+                    if (team1 && team2) {
+                        tickerText += `⚽ ${team1.name} ${match.team1Score || '0'} - ${match.team2Score || '0'} ${team2.name} (LIVE) | `;
+                    }
+                });
+            }
+            
+            if (upcomingMatches.length > 0) {
+                const match = upcomingMatches[0];
+                const team1 = data.teams.find(t => t.id === match.team1Id);
+                const team2 = data.teams.find(t => t.id === match.team2Id);
+                
+                if (team1 && team2) {
+                    tickerText += `🆚 ${team1.name} vs ${team2.name} starting soon | `;
+                }
+            }
+            
+            // Add tournament info if no matches
+            if (tickerText === '') {
+                tickerText = `🏆 ${data.settings.tournamentName} ${data.settings.tournamentYear} is underway!`;
+            }
+            
+            document.getElementById('live-ticker-text').textContent = tickerText;
+        }
+        
+        // ========== EVENT LISTENERS ==========
+        // Theme Toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        const body = document.body;
+        
+        // Check for saved theme preference or use preferred color scheme
+        const savedTheme = localStorage.getItem('theme') || 
+                          (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        
+        // Apply the saved theme
+        if (savedTheme === 'dark') {
+            body.classList.add('dark-mode');
+            themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+        }
+        
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            
+            // Update icon and save preference
+            if (body.classList.contains('dark-mode')) {
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+                localStorage.setItem('theme', 'light');
+            }
+        });
+        
+        // Mobile Navigation
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.querySelector('.nav-links');
+        
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            hamburger.innerHTML = navLinks.classList.contains('active') ? 
+                '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+        });
+        
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                hamburger.innerHTML = '<i class="fas fa-bars"></i>';
+            });
+        });
+        
+        // Admin Panel Login
+        const adminLink = document.getElementById('admin-link');
+        const adminSection = document.getElementById('admin');
+        const loginModal = document.getElementById('login-modal');
+        const loginBtn = document.getElementById('login-btn');
+        
+        adminLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            
+            // Check if already logged in
+            const isLoggedIn = sessionStorage.getItem('loggedIn') === 'true';
+            
+            if (isLoggedIn) {
+                // Hide all sections
+                document.querySelectorAll('section').forEach(section => {
+                    section.style.display = 'none';
+                });
+                // Show admin section
+                adminSection.style.display = 'block';
+                window.scrollTo(0, 0);
+            } else {
+                // Show login modal
+                loginModal.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+            }
+        });
+        
+        loginBtn.addEventListener('click', () => {
+            const username = document.getElementById('login-username').value;
+            const password = document.getElementById('login-password').value;
+            
+            const data = getTournamentData();
+            
+            if (username === data.settings.adminCredentials.username && 
+                password === data.settings.adminCredentials.password) {
+                // Hide login modal
+                loginModal.style.display = 'none';
+                document.body.style.overflow = '';
+                
+                // Show admin panel
+                document.querySelectorAll('section').forEach(section => {
+                    section.style.display = 'none';
+                });
+                adminSection.style.display = 'block';
+                window.scrollTo(0, 0);
+                
+                // Set logged in state
+                sessionStorage.setItem('loggedIn', 'true');
+            } else {
+                alert('Invalid credentials. Try admin / Eadmin');
+            }
+        });
+        
+        // Admin Tabs
+        const adminTabs = document.querySelectorAll('.admin-tab');
+        
+        adminTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remove active class from all tabs and content
+                adminTabs.forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.admin-content').forEach(c => c.classList.remove('active'));
+                
+                // Add active class to clicked tab and corresponding content
+                tab.classList.add('active');
+                const tabId = tab.getAttribute('data-tab');
+                document.getElementById(`${tabId}-tab`).classList.add('active');
+            });
+        });
+        
+        // File Upload
+        const uploadArea = document.getElementById('upload-area');
+        const fileInput = document.getElementById('logo-upload');
+        
+        uploadArea.addEventListener('click', () => {
+            fileInput.click();
+        });
+        
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.style.borderColor = 'var(--primary)';
+            uploadArea.style.backgroundColor = 'rgba(106, 17, 203, 0.1)';
+        });
+        
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.style.borderColor = 'rgba(0, 0, 0, 0.2)';
+            uploadArea.style.backgroundColor = '';
+        });
+        
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.style.borderColor = 'rgba(0, 0, 0, 0.2)';
+            uploadArea.style.backgroundColor = '';
+            
+            if (e.dataTransfer.files.length) {
+                fileInput.files = e.dataTransfer.files;
+            }
+        });
+        
+        // Filter buttons
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                const filter = btn.getAttribute('data-filter');
+                filterScoreboard(filter);
+            });
+        });
+        
+        function filterScoreboard(filter) {
+            const rows = document.querySelectorAll('#scoreboard-table tbody tr');
+            
+            rows.forEach(row => {
+                if (filter === 'all') {
+                    row.style.display = '';
+                } else if (filter === 'knockout') {
+                    // In a real app, you would filter knockout teams
+                    row.style.display = '';
+                } else {
+                    const teamName = row.querySelector('.team-cell span').textContent;
+                    const data = getTournamentData();
+                    const team = data.teams.find(t => t.name === teamName);
+                    
+                    if (team && team.group === filter) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                }
+            });
+        }
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#admin') return; // Handled separately
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 70,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Highlight active section in navigation
+        window.addEventListener('scroll', () => {
+            const scrollPosition = window.scrollY;
+            
+            document.querySelectorAll('section').forEach(section => {
+                const sectionTop = section.offsetTop - 100;
+                const sectionHeight = section.offsetHeight;
+                const sectionId = section.getAttribute('id');
+                
+                if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                    document.querySelectorAll('.nav-links a').forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href') === `#${sectionId}`) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+        });
+        
+        // ========== INITIALIZATION ==========
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize all data displays
+            renderFrontend();
+            renderAdminPanel();
+            
+            // Set up file upload
+            const uploadArea = document.getElementById('upload-area');
+            const fileInput = document.getElementById('logo-upload');
+            
+            uploadArea.addEventListener('click', () => {
+                fileInput.click();
+            });
+            
+            // Update countdown every second
+            setInterval(updateCountdown, 1000);
+            
+            // Update live ticker every 10 seconds
+            setInterval(updateLiveTicker, 10000);
+            updateLiveTicker();
+            
+            // Set current year in footer
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+            
+            // Create particles for header
+            createParticles();
+        });
+        
+        // Create particles for header
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 30;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Random size between 2px and 6px
+                const size = Math.random() * 4 + 2;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                // Random position
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                
+                // Random animation duration between 10s and 20s
+                const duration = Math.random() * 10 + 10;
+                particle.style.animationDuration = `${duration}s`;
+                
+                // Random delay
+                particle.style.animationDelay = `${Math.random() * 5}s`;
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+    </script>
+</body>
+</html>

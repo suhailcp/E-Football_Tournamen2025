@@ -1,0 +1,2030 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Football Champions League</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Orbitron:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0a1128;
+            --secondary: #1e3a8a;
+            --accent: #00c2ff;
+            --accent2: #ff0055;
+            --light: #f8f9fa;
+            --dark: #0c0f1d;
+            --card-bg: rgba(15, 23, 42, 0.8);
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --transition: all 0.3s ease;
+            --border-radius: 12px;
+        }
+
+        .dark-mode {
+            --primary: #0c0f1d;
+            --secondary: #1e293b;
+            --light: #0f172a;
+            --dark: #f8f9fa;
+            --card-bg: rgba(15, 23, 42, 0.9);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--light);
+            min-height: 100vh;
+            background-attachment: fixed;
+            overflow-x: hidden;
+            position: relative;
+            transition: background 0.5s ease;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 10% 20%, rgba(0, 194, 255, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(255, 0, 85, 0.1) 0%, transparent 20%);
+            z-index: -1;
+            transition: opacity 0.5s ease;
+        }
+
+        /* Header Styles */
+        header {
+            background: rgba(10, 17, 40, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-bottom: 1px solid rgba(0, 194, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo img {
+            height: 50px;
+            filter: drop-shadow(0 0 5px var(--accent));
+            animation: pulse 2s infinite;
+        }
+
+        .logo h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 1.8rem;
+            background: linear-gradient(to right, var(--accent), var(--accent2));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: 1px;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+        }
+
+        nav a {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 30px;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--accent);
+            background: rgba(0, 194, 255, 0.1);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: var(--transition);
+            transform: translateX(-50%);
+        }
+
+        nav a:hover::after, nav a.active::after {
+            width: 70%;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .theme-toggle {
+            background: rgba(0, 194, 255, 0.1);
+            border: 1px solid rgba(0, 194, 255, 0.3);
+            color: var(--accent);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .theme-toggle:hover {
+            background: rgba(0, 194, 255, 0.2);
+            transform: rotate(20deg);
+        }
+
+        .admin-login-btn {
+            background: linear-gradient(to right, var(--accent), var(--accent2));
+            color: white;
+            border: none;
+            padding: 0.5rem 1.5rem;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(0, 194, 255, 0.3);
+        }
+
+        .admin-login-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 194, 255, 0.4);
+        }
+
+        /* Main Content */
+        main {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .page {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 4rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero h2 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, var(--accent), var(--accent2));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .countdown-item {
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 1rem;
+            min-width: 100px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(0, 194, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .countdown-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--accent);
+        }
+
+        .countdown-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            font-family: 'Orbitron', sans-serif;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .countdown-label {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Sections */
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 0.5rem;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--accent);
+            border-radius: 3px;
+        }
+
+        /* Upcoming Matches */
+        .upcoming-matches {
+            margin: 4rem 0;
+        }
+
+        .matches-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .match-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(0, 194, 255, 0.2);
+            transition: var(--transition);
+            position: relative;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .match-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 194, 255, 0.3);
+            border-color: var(--accent);
+        }
+
+        .match-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to right, var(--accent), var(--accent2));
+        }
+
+        .match-header {
+            padding: 1rem;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .match-stage {
+            font-size: 0.9rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .match-date {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 0.3rem;
+        }
+
+        .match-content {
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .team {
+            text-align: center;
+            flex: 1;
+        }
+
+        .team-logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: var(--accent);
+            border: 2px solid var(--accent);
+            box-shadow: 0 0 15px rgba(0, 194, 255, 0.3);
+        }
+
+        .team-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .vs {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent2);
+            margin: 0 1rem;
+        }
+
+        .match-info {
+            padding: 1rem;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.2);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+        }
+
+        .match-venue {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .match-time {
+            color: var(--accent);
+            font-weight: 600;
+            margin-top: 0.3rem;
+        }
+
+        /* Groups Section */
+        .groups-section {
+            margin: 4rem 0;
+        }
+
+        .groups-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .group-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(0, 194, 255, 0.2);
+        }
+
+        .group-header {
+            background: linear-gradient(to right, var(--accent), var(--accent2));
+            padding: 1rem;
+            text-align: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .standings {
+            padding: 1rem;
+        }
+
+        .standings-header {
+            display: grid;
+            grid-template-columns: 3fr 1fr 1fr 1fr 1fr;
+            font-weight: 600;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--accent);
+        }
+
+        .team-row {
+            display: grid;
+            grid-template-columns: 3fr 1fr 1fr 1fr 1fr;
+            padding: 0.7rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.9rem;
+        }
+
+        .team-row:last-child {
+            border-bottom: none;
+        }
+
+        .team-name-cell {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .team-logo-small {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background: rgba(0, 194, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            color: var(--accent);
+            border: 1px solid var(--accent);
+        }
+
+        /* Knockout Stage */
+        .knockout-stage {
+            margin: 4rem 0;
+        }
+
+        .bracket {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .bracket-column {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            min-height: 400px;
+        }
+
+        .bracket-match {
+            background: var(--card-bg);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            width: 280px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(0, 194, 255, 0.2);
+            position: relative;
+        }
+
+        .bracket-match.semifinal {
+            border-left: 4px solid var(--accent);
+        }
+
+        .bracket-match.final {
+            border-left: 4px solid var(--accent2);
+        }
+
+        .bracket-match::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: -20px;
+            width: 20px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .bracket-match-header {
+            text-align: center;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--accent);
+            text-transform: uppercase;
+            font-size: 0.9rem;
+        }
+
+        .bracket-team {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .bracket-team:last-child {
+            border-bottom: none;
+        }
+
+        .bracket-team.winner {
+            color: var(--success);
+            font-weight: 600;
+        }
+
+        /* Final Winner Section */
+        .champion-section {
+            margin: 4rem 0;
+            text-align: center;
+            padding: 3rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            border: 2px solid var(--accent);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .champion-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(0, 194, 255, 0.1) 0%, transparent 70%);
+            z-index: -1;
+        }
+
+        .champion-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent);
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .champion-team {
+            font-size: 3rem;
+            font-weight: 800;
+            margin: 1rem 0;
+            color: var(--accent2);
+            text-shadow: 0 0 10px rgba(255, 0, 85, 0.5);
+        }
+
+        .champion-score {
+            font-size: 5rem;
+            font-weight: 900;
+            margin: 1rem 0;
+            font-family: 'Orbitron', sans-serif;
+            background: linear-gradient(to right, var(--accent), var(--accent2));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .champion-subtitle {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.8);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Admin Panel */
+        .admin-panel {
+            background: rgba(10, 15, 30, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 0 30px rgba(0, 194, 255, 0.2);
+            border: 1px solid rgba(0, 194, 255, 0.3);
+            max-width: 1000px;
+            margin: 2rem auto;
+        }
+
+        .admin-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .admin-header h2 {
+            font-size: 2rem;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .admin-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 1rem;
+        }
+
+        .admin-tab {
+            padding: 0.7rem 1.5rem;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 30px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .admin-tab.active {
+            background: linear-gradient(to right, var(--accent), var(--accent2));
+        }
+
+        .admin-content {
+            display: none;
+        }
+
+        .admin-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--accent);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(0, 194, 255, 0.3);
+            border-radius: 8px;
+            color: white;
+            font-family: inherit;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(0, 194, 255, 0.2);
+        }
+
+        .btn {
+            background: linear-gradient(to right, var(--accent), var(--accent2));
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: inherit;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 194, 255, 0.4);
+        }
+
+        .btn-block {
+            display: block;
+            width: 100%;
+        }
+
+        .btn-sm {
+            padding: 0.4rem 0.8rem;
+            font-size: 0.9rem;
+        }
+
+        .btn-danger {
+            background: linear-gradient(to right, var(--danger), #b91c1c);
+        }
+
+        .login-container {
+            max-width: 400px;
+            margin: 5rem auto;
+            background: rgba(10, 15, 30, 0.95);
+            border-radius: 15px;
+            padding: 2.5rem;
+            box-shadow: 0 0 30px rgba(0, 194, 255, 0.2);
+            border: 1px solid rgba(0, 194, 255, 0.3);
+            text-align: center;
+        }
+
+        .login-container h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent);
+        }
+
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.5rem;
+        }
+
+        .admin-table th, .admin-table td {
+            padding: 0.8rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .admin-table th {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem;
+            background: var(--success);
+            color: white;
+            border-radius: var(--border-radius);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            z-index: 1000;
+            transform: translateX(120%);
+            transition: transform 0.3s ease;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.error {
+            background: var(--danger);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(10, 17, 40, 0.9);
+            padding: 2rem;
+            text-align: center;
+            margin-top: 4rem;
+            border-top: 1px solid rgba(0, 194, 255, 0.2);
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .footer-logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, var(--accent), var(--accent2));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .social-link {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: rgba(0, 194, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent);
+            font-size: 1.2rem;
+            transition: var(--transition);
+        }
+
+        .social-link:hover {
+            background: var(--accent);
+            color: white;
+            transform: translateY(-5px);
+        }
+
+        .copyright {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+            margin-top: 1rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .header-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .hero h2 {
+                font-size: 2.5rem;
+            }
+            
+            .matches-grid {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .countdown {
+                flex-wrap: wrap;
+            }
+            
+            .bracket {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .admin-tabs {
+                flex-wrap: wrap;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero h2 {
+                font-size: 2rem;
+            }
+            
+            .match-card {
+                animation: none;
+            }
+            
+            .match-card:hover {
+                transform: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Notification -->
+    <div class="notification" id="notification"></div>
+    
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <div class="logo-icon">⚽</div>
+                <h1>E-Football Champions League</h1>
+            </div>
+            
+            <nav>
+                <ul>
+                    <li><a href="#" class="nav-link active" data-page="home">Home</a></li>
+                    <li><a href="#" class="nav-link" data-page="groups">Groups</a></li>
+                    <li><a href="#" class="nav-link" data-page="knockout">Knockout Stage</a></li>
+                    <li><a href="#" class="nav-link" data-page="schedule">Schedule</a></li>
+                    <li><a href="#" class="nav-link" data-page="standings">Standings</a></li>
+                </ul>
+            </nav>
+            
+            <div class="header-actions">
+                <div class="theme-toggle" id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                </div>
+                <button class="admin-login-btn" id="adminLoginBtn">Admin Login</button>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Main Content -->
+    <main>
+        <!-- Home Page -->
+        <section id="home" class="page active">
+            <div class="hero">
+                <h2>E-Football Champions League</h2>
+                <p>Experience the future of competitive gaming in the most prestigious e-football tournament. Watch the best virtual teams battle for glory!</p>
+                
+                <div class="countdown">
+                    <div class="countdown-item">
+                        <div class="countdown-value" id="days">12</div>
+                        <div class="countdown-label">Days</div>
+                    </div>
+                    <div class="countdown-item">
+                        <div class="countdown-value" id="hours">18</div>
+                        <div class="countdown-label">Hours</div>
+                    </div>
+                    <div class="countdown-item">
+                        <div class="countdown-value" id="minutes">45</div>
+                        <div class="countdown-label">Minutes</div>
+                    </div>
+                    <div class="countdown-item">
+                        <div class="countdown-value" id="seconds">22</div>
+                        <div class="countdown-label">Seconds</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Upcoming Matches -->
+            <div class="upcoming-matches">
+                <h3 class="section-title">Upcoming Matches</h3>
+                <div class="matches-grid" id="upcomingMatches">
+                    <!-- Matches will be dynamically added here -->
+                </div>
+            </div>
+            
+            <!-- Final Winner Announcement -->
+            <div class="champion-section" id="championSection" style="display: none;">
+                <h3 class="champion-title" id="championTitle">2025 E-Football Champions</h3>
+                <div class="champion-score" id="championScore">4 - 2</div>
+                <div class="champion-team" id="championTeam">FC Barcelona</div>
+                <p class="champion-subtitle" id="championSubtitle">FC Barcelona defeats Real Madrid in an epic final to claim the E-Football Champions League trophy for the second time.</p>
+            </div>
+        </section>
+        
+        <!-- Groups Page -->
+        <section id="groups" class="page">
+            <h3 class="section-title">Group Stage</h3>
+            <div class="groups-container" id="groupsContainer">
+                <!-- Groups will be dynamically added here -->
+            </div>
+        </section>
+        
+        <!-- Knockout Stage -->
+        <section id="knockout" class="page">
+            <h3 class="section-title">Knockout Stage</h3>
+            <div class="knockout-stage" id="knockoutStage">
+                <!-- Knockout matches will be dynamically added here -->
+            </div>
+        </section>
+        
+        <!-- Schedule Page -->
+        <section id="schedule" class="page">
+            <h3 class="section-title">Match Schedule</h3>
+            <div class="matches-grid" id="allMatches">
+                <!-- All matches will be dynamically added here -->
+            </div>
+        </section>
+        
+        <!-- Standings Page -->
+        <section id="standings" class="page">
+            <h3 class="section-title">Tournament Standings</h3>
+            <div class="groups-container" id="standingsContainer">
+                <!-- Standings will be dynamically added here -->
+            </div>
+        </section>
+        
+        <!-- Admin Panel -->
+        <section id="admin" class="page">
+            <div class="login-container" id="loginContainer">
+                <h2>Admin Login</h2>
+                <div class="form-group">
+                    <input type="text" id="adminId" class="form-control" placeholder="Admin ID" value="admin">
+                </div>
+                <div class="form-group">
+                    <input type="password" id="adminPass" class="form-control" placeholder="Password" value="Eadmin">
+                </div>
+                <button class="btn btn-block" id="loginBtn">Login</button>
+            </div>
+            
+            <div class="admin-panel" id="adminPanel" style="display: none;">
+                <div class="admin-header">
+                    <h2>Tournament Admin Panel</h2>
+                    <p>Manage teams, matches, and tournament settings</p>
+                </div>
+                
+                <div class="admin-tabs">
+                    <div class="admin-tab active" data-tab="teams">Teams</div>
+                    <div class="admin-tab" data-tab="matches">Matches</div>
+                    <div class="admin-tab" data-tab="knockout-admin">Knockout Stage</div>
+                    <div class="admin-tab" data-tab="final">Final Match</div>
+                </div>
+                
+                <!-- Teams Management -->
+                <div class="admin-content active" id="teamsContent">
+                    <h3>Manage Teams</h3>
+                    <div class="form-group">
+                        <label>Team Name</label>
+                        <input type="text" id="teamName" class="form-control" placeholder="Enter team name">
+                    </div>
+                    <div class="form-group">
+                        <label>Group Assignment</label>
+                        <select id="teamGroup" class="form-control">
+                            <option value="A">Group A</option>
+                            <option value="B">Group B</option>
+                            <option value="C">Group C</option>
+                            <option value="D">Group D</option>
+                        </select>
+                    </div>
+                    <button class="btn" id="addTeamBtn">Add Team</button>
+                    
+                    <div style="margin-top: 2rem;">
+                        <h4>Current Teams</h4>
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Team Name</th>
+                                    <th>Group</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="teamsList">
+                                <!-- Teams will be dynamically added here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <!-- Matches Management -->
+                <div class="admin-content" id="matchesContent">
+                    <h3>Manage Matches</h3>
+                    <div class="form-group">
+                        <label>Match Stage</label>
+                        <select id="matchStage" class="form-control">
+                            <option value="group">Group Stage</option>
+                            <option value="semifinal">Semifinal</option>
+                            <option value="final">Final</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Group (if applicable)</label>
+                        <select id="matchGroup" class="form-control">
+                            <option value="A">Group A</option>
+                            <option value="B">Group B</option>
+                            <option value="C">Group C</option>
+                            <option value="D">Group D</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Team 1</label>
+                        <select id="team1" class="form-control">
+                            <!-- Teams will be dynamically added -->
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Team 2</label>
+                        <select id="team2" class="form-control">
+                            <!-- Teams will be dynamically added -->
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Match Date & Time</label>
+                        <input type="datetime-local" id="matchDateTime" class="form-control">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Venue</label>
+                        <input type="text" id="matchVenue" class="form-control" placeholder="Enter venue name">
+                    </div>
+                    
+                    <button class="btn" id="addMatchBtn">Schedule Match</button>
+                    
+                    <div style="margin-top: 2rem;">
+                        <h4>Scheduled Matches</h4>
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Match</th>
+                                    <th>Stage</th>
+                                    <th>Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="matchesList">
+                                <!-- Matches will be dynamically added here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <!-- Knockout Stage Management -->
+                <div class="admin-content" id="knockoutContent">
+                    <h3>Knockout Stage Setup</h3>
+                    <div class="form-group">
+                        <label>Semifinal 1</label>
+                        <div class="form-group" style="display: flex; align-items: center; gap: 1rem;">
+                            <select id="sf1Team1" class="form-control">
+                                <!-- Teams will be dynamically added -->
+                            </select>
+                            <span>vs</span>
+                            <select id="sf1Team2" class="form-control">
+                                <!-- Teams will be dynamically added -->
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Semifinal 2</label>
+                        <div class="form-group" style="display: flex; align-items: center; gap: 1rem;">
+                            <select id="sf2Team1" class="form-control">
+                                <!-- Teams will be dynamically added -->
+                            </select>
+                            <span>vs</span>
+                            <select id="sf2Team2" class="form-control">
+                                <!-- Teams will be dynamically added -->
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Semifinal 1 Date & Time</label>
+                        <input type="datetime-local" id="sf1DateTime" class="form-control">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Semifinal 2 Date & Time</label>
+                        <input type="datetime-local" id="sf2DateTime" class="form-control">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Venue</label>
+                        <input type="text" id="knockoutVenue" class="form-control" placeholder="Enter venue name">
+                    </div>
+                    
+                    <button class="btn" id="setSemifinalsBtn">Set Semifinal Matches</button>
+                </div>
+                
+                <!-- Final Match Management -->
+                <div class="admin-content" id="finalContent">
+                    <h3>Final Match Setup</h3>
+                    <div class="form-group">
+                        <label>Team 1 (Winner of SF1)</label>
+                        <select id="finalTeam1" class="form-control">
+                            <!-- Teams will be dynamically added -->
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Team 2 (Winner of SF2)</label>
+                        <select id="finalTeam2" class="form-control">
+                            <!-- Teams will be dynamically added -->
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Match Date & Time</label>
+                        <input type="datetime-local" id="finalDateTime" class="form-control">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Venue</label>
+                        <input type="text" id="finalVenue" class="form-control" placeholder="Enter venue name">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Match Result</label>
+                        <div style="display: flex; gap: 1rem; align-items: center;">
+                            <input type="number" id="finalScore1" class="form-control" value="0" style="width: 80px;">
+                            <span>:</span>
+                            <input type="number" id="finalScore2" class="form-control" value="0" style="width: 80px;">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Tournament Champion</label>
+                        <select id="championTeamSelect" class="form-control">
+                            <!-- Teams will be dynamically added -->
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="publishResult" checked> Publish Result on Website
+                        </label>
+                    </div>
+                    
+                    <button class="btn" id="setFinalResultBtn">Set Final Result</button>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">E-Football Champions League</div>
+            <p>The premier virtual football competition featuring the best e-athletes in the world.</p>
+            
+            <div class="social-links">
+                <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-twitch"></i></a>
+            </div>
+            
+            <div class="copyright">
+                &copy; 2025 E-Football Champions League. All rights reserved.
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Data storage and initialization
+        const STORAGE_KEY = 'eFootballLeagueData';
+        let tournamentData = {
+            teams: [],
+            matches: [],
+            groups: {
+                A: [],
+                B: [],
+                C: [],
+                D: []
+            },
+            knockout: {
+                semifinal1: null,
+                semifinal2: null,
+                final: null
+            },
+            champion: null
+        };
+
+        // Initialize data from localStorage
+        function initData() {
+            const savedData = localStorage.getItem(STORAGE_KEY);
+            if (savedData) {
+                tournamentData = JSON.parse(savedData);
+            }
+            renderAllData();
+        }
+
+        // Save data to localStorage
+        function saveData() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(tournamentData));
+        }
+
+        // Show notification
+        function showNotification(message, isError = false) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = `notification ${isError ? 'error' : ''} show`;
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        // Render all data on the page
+        function renderAllData() {
+            renderTeams();
+            renderMatches();
+            renderGroups();
+            renderKnockoutStage();
+            renderChampion();
+            renderAdminLists();
+        }
+
+        // Render teams in admin panel
+        function renderTeams() {
+            const teamsList = document.getElementById('teamsList');
+            teamsList.innerHTML = '';
+            
+            tournamentData.teams.forEach(team => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${team.name}</td>
+                    <td>Group ${team.group}</td>
+                    <td class="action-buttons">
+                        <button class="btn btn-sm btn-danger" data-id="${team.id}">Delete</button>
+                    </td>
+                `;
+                teamsList.appendChild(row);
+            });
+            
+            // Add event listeners to delete buttons
+            document.querySelectorAll('#teamsList .btn-danger').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const teamId = btn.getAttribute('data-id');
+                    deleteTeam(teamId);
+                });
+            });
+        }
+
+        // Render matches in admin panel
+        function renderMatches() {
+            const matchesList = document.getElementById('matchesList');
+            matchesList.innerHTML = '';
+            
+            tournamentData.matches.forEach(match => {
+                const team1 = tournamentData.teams.find(t => t.id === match.team1Id);
+                const team2 = tournamentData.teams.find(t => t.id === match.team2Id);
+                
+                if (team1 && team2) {
+                    const date = new Date(match.date);
+                    const formattedDate = date.toLocaleString();
+                    
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${team1.name} vs ${team2.name}</td>
+                        <td>${match.stage.charAt(0).toUpperCase() + match.stage.slice(1)}</td>
+                        <td>${formattedDate}</td>
+                        <td class="action-buttons">
+                            <button class="btn btn-sm btn-danger" data-id="${match.id}">Delete</button>
+                        </td>
+                    `;
+                    matchesList.appendChild(row);
+                    
+                    // Add event listeners to delete buttons
+                    document.querySelectorAll('#matchesList .btn-danger').forEach(btn => {
+                        btn.addEventListener('click', () => {
+                            const matchId = btn.getAttribute('data-id');
+                            deleteMatch(matchId);
+                        });
+                    });
+                }
+            });
+        }
+
+        // Render groups on groups page
+        function renderGroups() {
+            const groupsContainer = document.getElementById('groupsContainer');
+            groupsContainer.innerHTML = '';
+            
+            // Render groups on groups page
+            ['A', 'B', 'C', 'D'].forEach(group => {
+                const groupCard = document.createElement('div');
+                groupCard.className = 'group-card';
+                groupCard.innerHTML = `
+                    <div class="group-header">Group ${group}</div>
+                    <div class="standings">
+                        <div class="standings-header">
+                            <div>Team</div>
+                            <div>P</div>
+                            <div>W</div>
+                            <div>D</div>
+                            <div>Pts</div>
+                        </div>
+                        <div id="group-${group}-teams"></div>
+                    </div>
+                `;
+                groupsContainer.appendChild(groupCard);
+                
+                const groupTeamsContainer = document.getElementById(`group-${group}-teams`);
+                const groupTeams = tournamentData.teams.filter(team => team.group === group);
+                
+                groupTeams.forEach(team => {
+                    const teamRow = document.createElement('div');
+                    teamRow.className = 'team-row';
+                    teamRow.innerHTML = `
+                        <div class="team-name-cell">
+                            <div class="team-logo-small">${team.name.substring(0, 3)}</div>
+                            <div>${team.name}</div>
+                        </div>
+                        <div>0</div>
+                        <div>0</div>
+                        <div>0</div>
+                        <div>0</div>
+                    `;
+                    groupTeamsContainer.appendChild(teamRow);
+                });
+            });
+            
+            // Also render on standings page
+            const standingsContainer = document.getElementById('standingsContainer');
+            standingsContainer.innerHTML = groupsContainer.innerHTML;
+        }
+
+        // Render knockout stage
+        function renderKnockoutStage() {
+            const knockoutStage = document.getElementById('knockoutStage');
+            knockoutStage.innerHTML = '';
+            
+            const bracket = document.createElement('div');
+            bracket.className = 'bracket';
+            bracket.innerHTML = `
+                <div class="bracket-column">
+                    <div class="bracket-match semifinal" id="semifinal1">
+                        <div class="bracket-match-header">Semifinal 1</div>
+                        <div class="bracket-team" id="sf1-team1">TBD</div>
+                        <div class="bracket-team" id="sf1-team2">TBD</div>
+                        <div class="match-date" id="sf1-date"></div>
+                    </div>
+                    
+                    <div class="bracket-match semifinal" id="semifinal2">
+                        <div class="bracket-match-header">Semifinal 2</div>
+                        <div class="bracket-team" id="sf2-team1">TBD</div>
+                        <div class="bracket-team" id="sf2-team2">TBD</div>
+                        <div class="match-date" id="sf2-date"></div>
+                    </div>
+                </div>
+                
+                <div class="bracket-column">
+                    <div class="bracket-match final" id="finalMatch">
+                        <div class="bracket-match-header">Grand Final</div>
+                        <div class="bracket-team" id="final-team1">TBD</div>
+                        <div class="bracket-team" id="final-team2">TBD</div>
+                        <div class="match-date" id="final-date"></div>
+                    </div>
+                </div>
+            `;
+            knockoutStage.appendChild(bracket);
+            
+            // Update with actual data if available
+            if (tournamentData.knockout.semifinal1) {
+                const sf1 = tournamentData.knockout.semifinal1;
+                const team1 = tournamentData.teams.find(t => t.id === sf1.team1Id);
+                const team2 = tournamentData.teams.find(t => t.id === sf1.team2Id);
+                
+                if (team1 && team2) {
+                    document.getElementById('sf1-team1').textContent = team1.name;
+                    document.getElementById('sf1-team2').textContent = team2.name;
+                    
+                    const date = new Date(sf1.date);
+                    document.getElementById('sf1-date').textContent = date.toLocaleString();
+                }
+            }
+            
+            if (tournamentData.knockout.semifinal2) {
+                const sf2 = tournamentData.knockout.semifinal2;
+                const team1 = tournamentData.teams.find(t => t.id === sf2.team1Id);
+                const team2 = tournamentData.teams.find(t => t.id === sf2.team2Id);
+                
+                if (team1 && team2) {
+                    document.getElementById('sf2-team1').textContent = team1.name;
+                    document.getElementById('sf2-team2').textContent = team2.name;
+                    
+                    const date = new Date(sf2.date);
+                    document.getElementById('sf2-date').textContent = date.toLocaleString();
+                }
+            }
+            
+            if (tournamentData.knockout.final) {
+                const final = tournamentData.knockout.final;
+                const team1 = tournamentData.teams.find(t => t.id === final.team1Id);
+                const team2 = tournamentData.teams.find(t => t.id === final.team2Id);
+                
+                if (team1 && team2) {
+                    document.getElementById('final-team1').textContent = team1.name;
+                    document.getElementById('final-team2').textContent = team2.name;
+                    
+                    const date = new Date(final.date);
+                    document.getElementById('final-date').textContent = date.toLocaleString();
+                }
+            }
+        }
+
+        // Render champion section
+        function renderChampion() {
+            const championSection = document.getElementById('championSection');
+            
+            if (tournamentData.champion) {
+                championSection.style.display = 'block';
+                const champion = tournamentData.teams.find(t => t.id === tournamentData.champion.teamId);
+                
+                if (champion) {
+                    document.getElementById('championTeam').textContent = champion.name;
+                    document.getElementById('championScore').textContent = 
+                        `${tournamentData.champion.score1} - ${tournamentData.champion.score2}`;
+                    document.getElementById('championSubtitle').textContent = 
+                        `${champion.name} wins the E-Football Champions League!`;
+                }
+            } else {
+                championSection.style.display = 'none';
+            }
+        }
+
+        // Render admin dropdowns
+        function renderAdminLists() {
+            const teamDropdowns = [
+                'team1', 'team2', 
+                'sf1Team1', 'sf1Team2', 
+                'sf2Team1', 'sf2Team2', 
+                'finalTeam1', 'finalTeam2',
+                'championTeamSelect'
+            ];
+            
+            teamDropdowns.forEach(dropdownId => {
+                const dropdown = document.getElementById(dropdownId);
+                if (dropdown) {
+                    dropdown.innerHTML = '';
+                    
+                    // Add default option
+                    const defaultOption = document.createElement('option');
+                    defaultOption.value = '';
+                    defaultOption.textContent = 'Select a team';
+                    dropdown.appendChild(defaultOption);
+                    
+                    // Add teams
+                    tournamentData.teams.forEach(team => {
+                        const option = document.createElement('option');
+                        option.value = team.id;
+                        option.textContent = team.name;
+                        dropdown.appendChild(option);
+                    });
+                }
+            });
+        }
+
+        // Add a new team
+        function addTeam() {
+            const nameInput = document.getElementById('teamName');
+            const groupInput = document.getElementById('teamGroup');
+            
+            const name = nameInput.value.trim();
+            const group = groupInput.value;
+            
+            if (!name) {
+                showNotification('Please enter a team name', true);
+                return;
+            }
+            
+            const newTeam = {
+                id: Date.now().toString(),
+                name: name,
+                group: group
+            };
+            
+            tournamentData.teams.push(newTeam);
+            saveData();
+            renderAllData();
+            
+            nameInput.value = '';
+            groupInput.value = 'A';
+            
+            showNotification('Team added successfully!');
+        }
+
+        // Delete a team
+        function deleteTeam(teamId) {
+            tournamentData.teams = tournamentData.teams.filter(team => team.id !== teamId);
+            saveData();
+            renderAllData();
+            showNotification('Team deleted successfully!');
+        }
+
+        // Add a new match
+        function addMatch() {
+            const stageInput = document.getElementById('matchStage');
+            const groupInput = document.getElementById('matchGroup');
+            const team1Input = document.getElementById('team1');
+            const team2Input = document.getElementById('team2');
+            const dateInput = document.getElementById('matchDateTime');
+            const venueInput = document.getElementById('matchVenue');
+            
+            const stage = stageInput.value;
+            const group = groupInput.value;
+            const team1Id = team1Input.value;
+            const team2Id = team2Input.value;
+            const date = dateInput.value;
+            const venue = venueInput.value.trim();
+            
+            if (!team1Id || !team2Id) {
+                showNotification('Please select both teams', true);
+                return;
+            }
+            
+            if (team1Id === team2Id) {
+                showNotification('A team cannot play against itself', true);
+                return;
+            }
+            
+            if (!date) {
+                showNotification('Please select a date and time', true);
+                return;
+            }
+            
+            const newMatch = {
+                id: Date.now().toString(),
+                stage: stage,
+                group: group,
+                team1Id: team1Id,
+                team2Id: team2Id,
+                date: date,
+                venue: venue || 'Virtual Stadium'
+            };
+            
+            tournamentData.matches.push(newMatch);
+            saveData();
+            renderAllData();
+            
+            // Reset form
+            stageInput.value = 'group';
+            groupInput.value = 'A';
+            team1Input.value = '';
+            team2Input.value = '';
+            dateInput.value = '';
+            venueInput.value = '';
+            
+            showNotification('Match scheduled successfully!');
+        }
+
+        // Delete a match
+        function deleteMatch(matchId) {
+            tournamentData.matches = tournamentData.matches.filter(match => match.id !== matchId);
+            saveData();
+            renderAllData();
+            showNotification('Match deleted successfully!');
+        }
+
+        // Set semifinal matches
+        function setSemifinals() {
+            const sf1Team1Input = document.getElementById('sf1Team1');
+            const sf1Team2Input = document.getElementById('sf1Team2');
+            const sf2Team1Input = document.getElementById('sf2Team1');
+            const sf2Team2Input = document.getElementById('sf2Team2');
+            const sf1DateInput = document.getElementById('sf1DateTime');
+            const sf2DateInput = document.getElementById('sf2DateTime');
+            const venueInput = document.getElementById('knockoutVenue');
+            
+            const sf1Team1Id = sf1Team1Input.value;
+            const sf1Team2Id = sf1Team2Input.value;
+            const sf2Team1Id = sf2Team1Input.value;
+            const sf2Team2Id = sf2Team2Input.value;
+            const sf1Date = sf1DateInput.value;
+            const sf2Date = sf2DateInput.value;
+            const venue = venueInput.value.trim();
+            
+            // Validation
+            if (!sf1Team1Id || !sf1Team2Id || !sf2Team1Id || !sf2Team2Id) {
+                showNotification('Please select all teams for both semifinals', true);
+                return;
+            }
+            
+            if (!sf1Date || !sf2Date) {
+                showNotification('Please select dates for both semifinals', true);
+                return;
+            }
+            
+            // Create semifinal matches
+            const semifinal1 = {
+                id: `sf1-${Date.now()}`,
+                stage: 'semifinal',
+                team1Id: sf1Team1Id,
+                team2Id: sf1Team2Id,
+                date: sf1Date,
+                venue: venue || 'Virtual Stadium'
+            };
+            
+            const semifinal2 = {
+                id: `sf2-${Date.now()}`,
+                stage: 'semifinal',
+                team1Id: sf2Team1Id,
+                team2Id: sf2Team2Id,
+                date: sf2Date,
+                venue: venue || 'Virtual Stadium'
+            };
+            
+            // Add to tournament data
+            tournamentData.knockout.semifinal1 = semifinal1;
+            tournamentData.knockout.semifinal2 = semifinal2;
+            
+            // Also add to matches array
+            tournamentData.matches.push(semifinal1, semifinal2);
+            
+            saveData();
+            renderAllData();
+            showNotification('Semifinal matches set successfully!');
+        }
+
+        // Set final match result
+        function setFinalResult() {
+            const team1Input = document.getElementById('finalTeam1');
+            const team2Input = document.getElementById('finalTeam2');
+            const dateInput = document.getElementById('finalDateTime');
+            const venueInput = document.getElementById('finalVenue');
+            const score1Input = document.getElementById('finalScore1');
+            const score2Input = document.getElementById('finalScore2');
+            const championInput = document.getElementById('championTeamSelect');
+            const publishInput = document.getElementById('publishResult');
+            
+            const team1Id = team1Input.value;
+            const team2Id = team2Input.value;
+            const date = dateInput.value;
+            const venue = venueInput.value.trim();
+            const score1 = parseInt(score1Input.value);
+            const score2 = parseInt(score2Input.value);
+            const championId = championInput.value;
+            const publish = publishInput.checked;
+            
+            // Validation
+            if (!team1Id || !team2Id) {
+                showNotification('Please select both teams', true);
+                return;
+            }
+            
+            if (!date) {
+                showNotification('Please select a date and time', true);
+                return;
+            }
+            
+            if (isNaN(score1) || isNaN(score2)) {
+                showNotification('Please enter valid scores', true);
+                return;
+            }
+            
+            if (!championId) {
+                showNotification('Please select the tournament champion', true);
+                return;
+            }
+            
+            // Create final match
+            const finalMatch = {
+                id: `final-${Date.now()}`,
+                stage: 'final',
+                team1Id: team1Id,
+                team2Id: team2Id,
+                date: date,
+                venue: venue || 'Virtual Stadium',
+                score1: score1,
+                score2: score2
+            };
+            
+            // Set tournament champion
+            tournamentData.champion = {
+                teamId: championId,
+                score1: score1,
+                score2: score2,
+                published: publish
+            };
+            
+            // Add to tournament data
+            tournamentData.knockout.final = finalMatch;
+            
+            // Also add to matches array
+            tournamentData.matches.push(finalMatch);
+            
+            saveData();
+            renderAllData();
+            showNotification('Final match result set successfully!');
+        }
+
+        // Render upcoming matches on home page
+        function renderUpcomingMatches() {
+            const upcomingMatches = document.getElementById('upcomingMatches');
+            upcomingMatches.innerHTML = '';
+            
+            // Sort matches by date and get the next 3 upcoming matches
+            const now = new Date();
+            const upcoming = tournamentData.matches
+                .filter(match => new Date(match.date) > now)
+                .sort((a, b) => new Date(a.date) - new Date(b.date))
+                .slice(0, 3);
+            
+            if (upcoming.length === 0) {
+                upcomingMatches.innerHTML = '<p>No upcoming matches scheduled</p>';
+                return;
+            }
+            
+            upcoming.forEach(match => {
+                const team1 = tournamentData.teams.find(t => t.id === match.team1Id);
+                const team2 = tournamentData.teams.find(t => t.id === match.team2Id);
+                
+                if (team1 && team2) {
+                    const matchDate = new Date(match.date);
+                    const formattedDate = matchDate.toLocaleDateString();
+                    const formattedTime = matchDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                    
+                    const matchCard = document.createElement('div');
+                    matchCard.className = 'match-card';
+                    matchCard.innerHTML = `
+                        <div class="match-header">
+                            <div class="match-stage">${match.stage.charAt(0).toUpperCase() + match.stage.slice(1)} ${match.group ? ' - Group ' + match.group : ''}</div>
+                            <div class="match-date">${formattedDate}</div>
+                        </div>
+                        <div class="match-content">
+                            <div class="team">
+                                <div class="team-logo">${team1.name.substring(0, 3)}</div>
+                                <div class="team-name">${team1.name}</div>
+                            </div>
+                            <div class="vs">VS</div>
+                            <div class="team">
+                                <div class="team-logo">${team2.name.substring(0, 3)}</div>
+                                <div class="team-name">${team2.name}</div>
+                            </div>
+                        </div>
+                        <div class="match-info">
+                            <div class="match-venue">${match.venue}</div>
+                            <div class="match-time">${formattedTime}</div>
+                        </div>
+                    `;
+                    upcomingMatches.appendChild(matchCard);
+                }
+            });
+        }
+
+        // Render all matches on schedule page
+        function renderAllMatches() {
+            const allMatches = document.getElementById('allMatches');
+            allMatches.innerHTML = '';
+            
+            // Sort matches by date
+            const sortedMatches = [...tournamentData.matches].sort((a, b) => new Date(a.date) - new Date(b.date));
+            
+            if (sortedMatches.length === 0) {
+                allMatches.innerHTML = '<p>No matches scheduled yet</p>';
+                return;
+            }
+            
+            sortedMatches.forEach(match => {
+                const team1 = tournamentData.teams.find(t => t.id === match.team1Id);
+                const team2 = tournamentData.teams.find(t => t.id === match.team2Id);
+                
+                if (team1 && team2) {
+                    const matchDate = new Date(match.date);
+                    const formattedDate = matchDate.toLocaleDateString();
+                    const formattedTime = matchDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                    
+                    const matchCard = document.createElement('div');
+                    matchCard.className = 'match-card';
+                    matchCard.innerHTML = `
+                        <div class="match-header">
+                            <div class="match-stage">${match.stage.charAt(0).toUpperCase() + match.stage.slice(1)} ${match.group ? ' - Group ' + match.group : ''}</div>
+                            <div class="match-date">${formattedDate}</div>
+                        </div>
+                        <div class="match-content">
+                            <div class="team">
+                                <div class="team-logo">${team1.name.substring(0, 3)}</div>
+                                <div class="team-name">${team1.name}</div>
+                            </div>
+                            <div class="vs">VS</div>
+                            <div class="team">
+                                <div class="team-logo">${team2.name.substring(0, 3)}</div>
+                                <div class="team-name">${team2.name}</div>
+                            </div>
+                        </div>
+                        <div class="match-info">
+                            <div class="match-venue">${match.venue}</div>
+                            <div class="match-time">${formattedTime}</div>
+                        </div>
+                    `;
+                    allMatches.appendChild(matchCard);
+                }
+            });
+        }
+
+        // Countdown timer for tournament start
+        function updateCountdown() {
+            // Set tournament start date (one week from now)
+            const tournamentStart = new Date();
+            tournamentStart.setDate(tournamentStart.getDate() + 7);
+            
+            const now = new Date();
+            const diff = tournamentStart - now;
+            
+            if (diff <= 0) {
+                document.getElementById('days').textContent = '0';
+                document.getElementById('hours').textContent = '0';
+                document.getElementById('minutes').textContent = '0';
+                document.getElementById('seconds').textContent = '0';
+                return;
+            }
+            
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            
+            document.getElementById('days').textContent = days.toString().padStart(2, '0');
+            document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+            document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+            document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+        }
+
+        // Initialize the application
+        function initApp() {
+            // Initialize data
+            initData();
+            
+            // Set up event listeners
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Remove active class from all links
+                    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                    
+                    // Add active class to clicked link
+                    this.classList.add('active');
+                    
+                    // Hide all pages
+                    document.querySelectorAll('.page').forEach(page => {
+                        page.classList.remove('active');
+                    });
+                    
+                    // Show target page
+                    const targetPage = this.getAttribute('data-page');
+                    document.getElementById(targetPage).classList.add('active');
+                });
+            });
+            
+            // Theme toggle
+            document.getElementById('themeToggle').addEventListener('click', function() {
+                document.body.classList.toggle('dark-mode');
+                const icon = this.querySelector('i');
+                if (document.body.classList.contains('dark-mode')) {
+                    icon.classList.remove('fa-moon');
+                    icon.classList.add('fa-sun');
+                } else {
+                    icon.classList.remove('fa-sun');
+                    icon.classList.add('fa-moon');
+                }
+            });
+            
+            // Admin login button
+            document.getElementById('adminLoginBtn').addEventListener('click', function() {
+                // Show admin page
+                document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+                document.getElementById('admin').classList.add('active');
+            });
+            
+            // Admin login form
+            document.getElementById('loginBtn').addEventListener('click', function() {
+                const adminId = document.getElementById('adminId').value;
+                const adminPass = document.getElementById('adminPass').value;
+                
+                if (adminId === 'admin' && adminPass === 'Eadmin') {
+                    document.getElementById('loginContainer').style.display = 'none';
+                    document.getElementById('adminPanel').style.display = 'block';
+                } else {
+                    showNotification('Invalid credentials! Please try again.', true);
+                }
+            });
+            
+            // Admin tabs
+            document.querySelectorAll('.admin-tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Remove active class from all tabs
+                    document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+                    
+                    // Add active class to clicked tab
+                    this.classList.add('active');
+                    
+                    // Hide all content
+                    document.querySelectorAll('.admin-content').forEach(content => {
+                        content.classList.remove('active');
+                    });
+                    
+                    // Show target content
+                    const targetTab = this.getAttribute('data-tab');
+                    document.getElementById(targetTab + 'Content').classList.add('active');
+                });
+            });
+            
+            // Add team button
+            document.getElementById('addTeamBtn').addEventListener('click', addTeam);
+            
+            // Add match button
+            document.getElementById('addMatchBtn').addEventListener('click', addMatch);
+            
+            // Set semifinals button
+            document.getElementById('setSemifinalsBtn').addEventListener('click', setSemifinals);
+            
+            // Set final result button
+            document.getElementById('setFinalResultBtn').addEventListener('click', setFinalResult);
+            
+            // Set up countdown timer
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
+            
+            // Render matches
+            renderUpcomingMatches();
+            renderAllMatches();
+        }
+
+        // Initialize the application when the DOM is loaded
+        document.addEventListener('DOMContentLoaded', initApp);
+    </script>
+</body>
+</html>
